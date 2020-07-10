@@ -23,21 +23,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/simpleGamesDB",
   useNewUrlParser: true,
   useFindAndModify: false
 });
-
-const User = require("./models/user");
+const userController = require('./Controllers/userController');
+app.use('/api/users', userController);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
-});
-
-app.post("/api/users", ({ body }, res) => {
-  User.create(body)
-    .then(dbUser => {
-      res.json(dbUser);
-    })
-    .catch(err => {
-      res.json(err);
-    });
 });
 
 app.listen(PORT, () => {
