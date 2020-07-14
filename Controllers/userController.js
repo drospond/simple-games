@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 router.post("/", async (req, res) => {
   const userName = req.body.userName.trim();
@@ -25,6 +26,38 @@ router.post("/", async (req, res) => {
     })
     .catch((err) => {
       res.json(err).status(400);
+    });
+});
+
+router.post("/signin", (req, res) => {
+  const password = req.body.password;
+  User.findOne({ userName: req.body.userName })
+    .then(async (dbUser) => {
+      if (!dbUser) {
+        return res
+          .json({ errors: "Username or password are incorrect." })
+          .status(401);
+      }
+      if (await bcrypt.compare(password, dbUser.password)) {
+        const userJWT = { id: dbUser._id, userName: dbUser.userName };
+        const accessToken = jwt.sign(
+          userJWT,
+          process.env.REACT_APP_SECRET_KEY,
+          { expiresIn: "3h" }
+        );
+        res.json({ accessToken: accessToken });
+      } else {
+        res.json({ errors: "Username or password are incorrect." }).status(401);
+      }
+    })
+    .catch((er) => {
+      console.log(er);
+      res
+        .json({
+          succes: false,
+          error: "Something went wrong :/ Try again later.",
+        })
+        .status(500);
     });
 });
 
