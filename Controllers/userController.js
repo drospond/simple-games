@@ -2,7 +2,25 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token === null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.REACT_APP_SECRET_KEY, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+router.get("/", authenticateToken, (req, res) => {
+  db.User.findOne({ id: req.user._id }, "_id userName").then((user) => {
+    res.json(user);
+  });
+});
 
 router.post("/", async (req, res) => {
   const userName = req.body.userName.trim();
