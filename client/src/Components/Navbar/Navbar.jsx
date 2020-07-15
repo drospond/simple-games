@@ -1,18 +1,29 @@
 import React from "react";
 import './Navbar.scss';
+import {useSelector, useDispatch} from 'react-redux';
+import {signIn, signOut} from '../../Redux/actions';
 
 const Navbar = () => {
+const isSignedIn = useSelector(state => state.isSignedIn);
+const dispatch = useDispatch();
+
   return (
-    <nav className="navbar navbar-dark bg-dark justify-content-between">
+    <nav className="navbar navbar-dark justify-content-between">
       <a className="navbar-brand" href="/">
         Simple Games
       </a>
-      <ul class="navbar-nav ml-auto">
-        <li className="nav-item">
-          <a className="nav-link" href="/">
+      <ul className="navbar-nav ml-auto">
+        {!isSignedIn ? (<li className="nav-item">
+          <a className="nav-link" onClick={() => dispatch(signIn())}>
             Sign in
           </a>
-        </li>
+        </li>):
+        (<li className="nav-item">
+        <a className="nav-link" onClick={() => dispatch(signOut())}>
+          Sign out
+        </a>
+      </li>)
+        }
       </ul>
     </nav>
   );
