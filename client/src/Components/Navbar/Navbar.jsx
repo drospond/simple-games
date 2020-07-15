@@ -1,11 +1,13 @@
 import React from "react";
 import './Navbar.scss';
+import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {signIn, signOut} from '../../Redux/actions';
+import {signOut} from "../../Redux/actions";
+
 
 const Navbar = () => {
-const isSignedIn = useSelector(state => state.isSignedIn);
-const dispatch = useDispatch();
+  const isSignedIn = useSelector(state=> state.isSignedIn);
+  const dispatch = useDispatch();
 
   return (
     <nav className="navbar navbar-dark justify-content-between">
@@ -14,9 +16,9 @@ const dispatch = useDispatch();
       </a>
       <ul className="navbar-nav ml-auto">
         {!isSignedIn ? (<li className="nav-item">
-          <a className="nav-link" onClick={() => dispatch(signIn())}>
+          <Link to="/signin" className="nav-link">
             Sign in
-          </a>
+          </Link>
         </li>):
         (<li className="nav-item">
         <a className="nav-link" onClick={() => dispatch(signOut())}>
