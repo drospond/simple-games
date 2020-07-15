@@ -1,0 +1,12 @@
+@import '../../baseScss/base';
+
+#signin-form{
+    max-width: 50%;
+    margin: auto;
+}
+label{
+    color: white;
+}
+.btn-primary{
+    background-color: $dark;
+}
