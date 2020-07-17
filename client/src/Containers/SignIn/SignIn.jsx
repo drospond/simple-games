@@ -8,7 +8,7 @@ class SignIn extends Component {
         <div className="row title-row">
           <h1 className="title">Sign In</h1>
         </div>
-        <form id="signin-form">
+        <form id="signin-form" onSubmit={(event)=>{event.preventDefault();}}>
           <div className="form-group">
             <label for="userNameInput">Username</label>
             <input
@@ -28,7 +28,7 @@ class SignIn extends Component {
               placeholder="Password"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn">
             Sign in
           </button>
         </form>
