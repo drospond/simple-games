@@ -2,6 +2,23 @@ import React, { Component } from "react";
 import "./SignIn.scss";
 
 class SignIn extends Component {
+
+  state = {
+    userName: "",
+    password: "",
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div className="container">
@@ -15,8 +32,9 @@ class SignIn extends Component {
               type="text"
               className="form-control"
               id="userNameInput"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
+              placeholder="Username"
+              name="userName"
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
@@ -26,6 +44,8 @@ class SignIn extends Component {
               className="form-control"
               id="passwordInput"
               placeholder="Password"
+              name="password"
+              onChange={this.handleChange}
             />
           </div>
           <button type="submit" className="btn">
