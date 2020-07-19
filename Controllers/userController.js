@@ -12,13 +12,15 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.REACT_APP_SECRET_KEY, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
+    console.log('user from middleware: ', user);
     next();
   });
 }
 
 router.get("/", authenticateToken, (req, res) => {
-  User.findOne({ id: req.user._id }, "_id userName").then((user) => {
+  User.findOne({ _id: req.user.id }, "_id userName").then((user) => {
     res.json(user);
+    console.log("user from route: ", user)
   });
 });
 

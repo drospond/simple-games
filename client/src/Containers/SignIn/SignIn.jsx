@@ -20,7 +20,6 @@ class SignIn extends Component {
 
   handleSignIn = () => {
     this.props.signIn();
-    this.setState({userName:"", password: ""});
   }
 
   getUserObject = () => {
@@ -52,7 +51,7 @@ class SignIn extends Component {
         this.getUserObject();
         console.log('props: ', this.props);
         this.handleSignIn();
-        // this.props.history.push("/");
+        this.props.history.push("/");
       });
   };
 
@@ -98,8 +97,6 @@ class SignIn extends Component {
     );
   }
 }
-
-// export default SignIn;
 
 export default connect(
   null,
