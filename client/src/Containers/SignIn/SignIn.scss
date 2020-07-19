@@ -1,5 +1,12 @@
 @import "../../baseScss/base";
 
+p{
+    color: white;
+}
+#signin-container{
+    justify-content: center;
+    text-align: center;
+}
 #signin-form {
   max-width: 50%;
   margin: auto;
@@ -24,4 +31,8 @@ label {
     text-shadow: 0px 0px 0px $dark;
     -webkit-text-stroke: 0px;
   }
+}
+.link{
+    color: white;
+    text-decoration: underline;
 }

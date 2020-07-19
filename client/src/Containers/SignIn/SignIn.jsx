@@ -3,6 +3,7 @@ import "./SignIn.scss";
 import axios from "axios";
 import {signIn, storeUser} from '../../Redux/actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class SignIn extends Component {
   state = {
@@ -57,7 +58,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container" id="signin-container">
         <div className="row title-row">
           <h1 className="title">Sign In</h1>
         </div>
@@ -93,6 +94,7 @@ class SignIn extends Component {
             Sign in
           </button>
         </form>
+        <p>Still need an account? <Link to="/createAcount" className="link">Sign up</Link></p>
       </div>
     );
   }
