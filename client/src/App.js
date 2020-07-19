@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./Containers/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import SignIn from "./Containers/SignIn/SignIn";
+import CreateAccount from "./Containers/CreateAccount/CreateAccount";
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,14 +19,12 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
-        {/* <Route path="/signin">
-          <SignIn />
-        </Route> */}
+        <Route exact path="/signin" render={(props) => <SignIn {...props} />} />
         <Route
-            exact
-            path="/signin"
-            render={(props) => <SignIn {...props}/>}
-          />
+          exact
+          path="/createAccount"
+          render={(props) => <CreateAccount {...props} />}
+        />
       </Switch>
     </BrowserRouter>
   );
