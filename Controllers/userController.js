@@ -39,6 +39,18 @@ router.post("/", async (req, res) => {
       res.json(dbUser).status(201);
     })
     .catch((err) => {
+      let errorMessage = "";
+      if(err.errors.userName){
+        errorMessage = err.errors.userName.properties.message;
+        err.errors = errorMessage;
+        res.json(err).status(400);
+      }
+      if(err.errors.password){
+        errorMessage = err.errors.password.properties.message;
+        err.errors = errorMessage;
+        res.json(err).status(400);
+      }
+      console.log(err.errors.userName.properties.message);
       res.json(err).status(400);
     });
 });

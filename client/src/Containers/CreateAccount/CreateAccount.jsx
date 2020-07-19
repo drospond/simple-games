@@ -72,7 +72,7 @@ class CreateAccount extends Component {
         <div className="row title-row">
           <h1 className="title">Create Account</h1>
         </div>
-        <p className="error">{this.state.error}</p>
+        {/* <p className="error">{this.state.error}</p> */}
         <form
           id="signin-form"
           onSubmit={(event) => {
