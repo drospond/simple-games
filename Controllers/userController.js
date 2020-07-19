@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 }
 
 router.get("/", authenticateToken, (req, res) => {
-  db.User.findOne({ id: req.user._id }, "_id userName").then((user) => {
+  User.findOne({ id: req.user._id }, "_id userName").then((user) => {
     res.json(user);
   });
 });
