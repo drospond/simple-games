@@ -12,7 +12,6 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.REACT_APP_SECRET_KEY, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
-    console.log('user from middleware: ', user);
     next();
   });
 }
@@ -20,7 +19,6 @@ function authenticateToken(req, res, next) {
 router.get("/", authenticateToken, (req, res) => {
   User.findOne({ _id: req.user.id }, "_id userName").then((user) => {
     res.json(user);
-    console.log("user from route: ", user)
   });
 });
 
@@ -30,11 +28,7 @@ router.post("/", async (req, res) => {
   if (req.body.password.length <= 7 || req.body.password.length > 64) {
     return res
       .json({
-        errors: {
-          password: {
-            properties: { message: "Password needs to be 8 to 64 characters." },
-          },
-        },
+        errors: "Password needs to be 8 to 64 characters." 
       })
       .status(400);
   } else {
@@ -45,6 +39,18 @@ router.post("/", async (req, res) => {
       res.json(dbUser).status(201);
     })
     .catch((err) => {
+      let errorMessage = "";
+      if(err.errors.userName){
+        errorMessage = err.errors.userName.properties.message;
+        err.errors = errorMessage;
+        res.json(err).status(400);
+      }
+      if(err.errors.password){
+        errorMessage = err.errors.password.properties.message;
+        err.errors = errorMessage;
+        res.json(err).status(400);
+      }
+      console.log(err.errors.userName.properties.message);
       res.json(err).status(400);
     });
 });

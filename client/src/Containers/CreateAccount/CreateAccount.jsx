@@ -1,27 +1,25 @@
 import React, { Component } from "react";
-import "./SignIn.scss";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import {signIn, storeUser} from '../../Redux/actions';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { signIn, storeUser } from "../../Redux/actions";
+import { connect } from "react-redux";
+import './CreateAccount.scss';
 
-class SignIn extends Component {
+class CreateAccount extends Component {
   state = {
     userName: "",
     password: "",
-    error: false
+    passwordRepeat: "",
+    error: false,
   };
 
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
+      error: false
     });
   };
-
-  handleSignIn = () => {
-    this.props.signIn();
-  }
 
   getUserObject = () => {
     if (!sessionStorage.getItem("jwt")) return;
@@ -31,37 +29,50 @@ class SignIn extends Component {
       .then((res) => {
         const user = {
           _id: res.data._id,
-          userName: res.data.userName
+          userName: res.data.userName,
         };
-        console.log("user: ", user);
         this.props.storeUser(user);
       });
   };
 
+  handleSignIn = (userName, password) => {
+    axios.post("/api/users/signin", { userName, password }).then((res) => {
+      console.log(res);
+      if (res.data.errors) {
+        console.log(res.data);
+        return this.setState({ error: res.data.errors });
+      }
+      sessionStorage.setItem("jwt", res.data.accessToken);
+      this.getUserObject();
+      console.log("props: ", this.props);
+      this.props.signIn();
+      this.props.history.push("/");
+    });
+  };
+
   handleSubmit = (event, userName, password) => {
     event.preventDefault();
+    if (this.state.password !== this.state.passwordRepeat) {
+      return this.setState({ error: "Passwords do not match" });
+    }
     axios
-      .post("/api/users/signin", { userName, password })
+      .post("/api/users", { userName, password })
       .then((res) => {
-        console.log(res);
         if (res.data.errors) {
-          console.log(res.data);
           return this.setState({ error: res.data.errors });
         }
-        sessionStorage.setItem("jwt", res.data.accessToken);
-        this.getUserObject();
-        console.log('props: ', this.props);
-        this.handleSignIn();
-        this.props.history.push("/");
-      });
+        this.handleSignIn(userName, password);
+      })
+      .catch((er) => console.log(er));
   };
 
   render() {
     return (
       <div className="container" id="signin-container">
         <div className="row title-row">
-          <h1 className="title">Sign In</h1>
+          <h1 className="title">Create Account</h1>
         </div>
+        <p className="error">{this.state.error}</p>
         <form
           id="signin-form"
           onSubmit={(event) => {
@@ -90,17 +101,30 @@ class SignIn extends Component {
               onChange={this.handleChange}
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="passwordInputRepeat">Repeat Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="passwordInputRepeat"
+              placeholder="Repeat Password"
+              name="passwordRepeat"
+              onChange={this.handleChange}
+            />
+          </div>
           <button type="submit" className="btn">
-            Sign in
+            Create Account
           </button>
         </form>
-        <p>Still need an account? <Link to="/createAccount" className="link">Sign up</Link></p>
+        <p>
+          Already have an account?{" "}
+          <Link to="/signin" className="link">
+            Sign in
+          </Link>
+        </p>
       </div>
     );
   }
 }
 
-export default connect(
-  null,
-  { signIn, storeUser }
-)(SignIn);
+export default connect(null, { signIn, storeUser })(CreateAccount);
