@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { signIn, storeUser } from "../../Redux/actions";
 import { connect } from "react-redux";
+import './CreateAccount.scss';
 
 class CreateAccount extends Component {
   state = {
@@ -16,6 +17,7 @@ class CreateAccount extends Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
+      error: false
     });
   };
 
@@ -70,6 +72,7 @@ class CreateAccount extends Component {
         <div className="row title-row">
           <h1 className="title">Create Account</h1>
         </div>
+        <p className="error">{this.state.error}</p>
         <form
           id="signin-form"
           onSubmit={(event) => {
