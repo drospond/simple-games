@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./SignIn.scss";
 import axios from "axios";
-import {signIn} from '../../Redux/actions';
+import {signIn, storeUser} from '../../Redux/actions';
 import { connect } from 'react-redux';
 
 class SignIn extends Component {
@@ -33,7 +33,8 @@ class SignIn extends Component {
           _id: res.data._id,
           userName: res.data.userName
         };
-        // setUserObject(user);//redux state
+        console.log("user: ", user);
+        this.props.storeUser(user);
       });
   };
 
@@ -51,7 +52,7 @@ class SignIn extends Component {
         this.getUserObject();
         console.log('props: ', this.props);
         this.handleSignIn();
-        this.props.history.push("/");
+        // this.props.history.push("/");
       });
   };
 
@@ -102,5 +103,5 @@ class SignIn extends Component {
 
 export default connect(
   null,
-  { signIn }
+  { signIn, storeUser }
 )(SignIn);

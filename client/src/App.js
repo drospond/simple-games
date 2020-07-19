@@ -18,9 +18,14 @@ function App() {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/signin">
+        {/* <Route path="/signin">
           <SignIn />
-        </Route>
+        </Route> */}
+        <Route
+            exact
+            path="/signin"
+            render={(props) => <SignIn {...props}/>}
+          />
       </Switch>
     </BrowserRouter>
   );

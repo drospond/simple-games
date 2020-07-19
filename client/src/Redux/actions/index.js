@@ -9,3 +9,8 @@ export const signOut = () => {
         type: 'SIGNOUT'
     }
 }
+
+export const storeUser = (userObject) => ({
+    type: 'STORE_USER',
+    payload: {userObject}
+})
