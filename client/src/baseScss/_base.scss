@@ -1,0 +1,15 @@
+$dark: #2f3742;
+
+%pink-neon-text {
+  text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px pink, 0 0 5px pink,
+    0 0 6px pink, 0 0 7px pink, 0 0 8px pink;
+  -webkit-text-stroke: 1px pink;
+}
+
+%pink-neon-border {
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  box-shadow: 0px 0px 10px rgb(255, 143, 162), 0px 0px 5px pink,
+    0px 0px 2px rgb(255, 221, 221), 0px 0px 10px rgb(255, 143, 162) inset,
+    0px 0px 5px pink inset, 0px 0px 2px rgb(255, 221, 221) inset;
+}

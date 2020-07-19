@@ -2,7 +2,7 @@ import signInReducer from './signin';
 import {combineReducers} from 'redux';
 
 const allReducers = combineReducers({
-    isSignedIn: signInReducer
+    signInState: signInReducer
 })
 
 export default allReducers;

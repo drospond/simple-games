@@ -1,0 +1,38 @@
+@import "../../baseScss/base";
+
+p{
+    color: white;
+}
+#signin-container{
+    justify-content: center;
+    text-align: center;
+}
+#signin-form {
+  max-width: 50%;
+  margin: auto;
+}
+label {
+  color: white;
+}
+.btn {
+  color: white;
+  background-color: $dark;
+  border-color: grey;
+  &:hover {
+    @extend %pink-neon-border;
+    background-color: $dark;
+    border-color: white;
+    @extend %pink-neon-text;
+  }
+  &:active{
+    border-color: gray;
+    box-shadow: 0px 0px 0px $dark;
+    color: white;
+    text-shadow: 0px 0px 0px $dark;
+    -webkit-text-stroke: 0px;
+  }
+}
+.link{
+    color: white;
+    text-decoration: underline;
+}

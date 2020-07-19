@@ -6,7 +6,7 @@ import {signOut} from "../../Redux/actions";
 
 
 const Navbar = () => {
-  const isSignedIn = useSelector(state=> state.isSignedIn);
+  const isSignedIn = useSelector(state => state.signInState.isSignedIn);
   const dispatch = useDispatch();
 
   return (

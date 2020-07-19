@@ -1,4 +1,6 @@
-#title {
+@import '../../baseScss/base';
+
+.title {
   font-family: "Damion";
   font-size: 80px;
   color: #fff;
@@ -7,7 +9,7 @@
   margin-top: 1.5rem;
 }
 body{
-    background-color: #2f3742;
+    background-color: $dark;
 }
 
 .title-row{

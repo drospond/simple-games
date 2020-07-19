@@ -6,7 +6,7 @@ class Home extends Component {
         return (
             <div className="container">
                 <div className="row title-row">
-                    <h1 id="title">Simple Games</h1>
+                    <h1 className="title">Simple Games</h1>
                 </div>
             </div>
         );
