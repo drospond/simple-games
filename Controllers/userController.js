@@ -80,8 +80,7 @@ router.post("/signin", (req, res) => {
       console.log(er);
       res
         .json({
-          succes: false,
-          error: "Something went wrong :/ Try again later.",
+          errors: "Something went wrong :/ Try again later.",
         })
         .status(500);
     });
