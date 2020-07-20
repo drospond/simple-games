@@ -16,6 +16,7 @@ class SignIn extends Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
+      error: false
     });
   };
 
@@ -62,6 +63,7 @@ class SignIn extends Component {
         <div className="row title-row">
           <h1 className="title">Sign In</h1>
         </div>
+        <p className="error">{this.state.error}</p>
         <form
           id="signin-form"
           onSubmit={(event) => {
