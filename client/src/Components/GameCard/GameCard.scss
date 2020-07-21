@@ -1,0 +1,12 @@
+@import "../../baseScss/base";
+
+.game-card{
+    width: 18rem;
+    background-color: $dark;
+    border-color: white;
+    @extend %blue-neon-border;
+}
+
+.card-title{
+    color: white;
+}
