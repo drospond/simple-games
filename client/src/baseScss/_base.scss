@@ -13,3 +13,11 @@ $dark: #2f3742;
     0px 0px 2px rgb(255, 221, 221), 0px 0px 10px rgb(255, 143, 162) inset,
     0px 0px 5px pink inset, 0px 0px 2px rgb(255, 221, 221) inset;
 }
+
+%blue-neon-border {
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  box-shadow: 0px 0px 10px #0073e6, 0px 0px 5px #0073e6,
+    0px 0px 2px #0073e6, 0px 0px 10px #0073e6 inset,
+    0px 0px 5px #0073e6 inset, 0px 0px 2px #0073e6 inset;
+}
