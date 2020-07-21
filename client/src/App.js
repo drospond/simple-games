@@ -10,6 +10,7 @@ import {
   Route,
   BrowserRouter,
 } from "react-router-dom";
+import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
           exact
           path="/createAccount"
           render={(props) => <CreateAccount {...props} />}
+        />
+        <Route
+          exact
+          path="/TicTacToe"
+          render={(props) => <TicTacToe {...props} />}
         />
       </Switch>
     </BrowserRouter>
