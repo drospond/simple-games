@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./Home.scss";
+import GameCard from '../../Components/GameCard/GameCard';
 
 class Home extends Component {
     render() {
@@ -7,6 +8,7 @@ class Home extends Component {
             <div className="container">
                 <div className="row title-row">
                     <h1 className="title">Simple Games</h1>
+                    <GameCard/>
                 </div>
             </div>
         );
