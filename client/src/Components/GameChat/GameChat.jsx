@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./GameChat.scss";
-import { useEffect } from "react";
-const io = require("socket.io-client");
-const ENDPOINT = "http://localhost:3001/";
+const socket = require("../../socket.io");
 
 const GameChat = () => {
-  let socket;
   const [message, setMessage] = useState("");
+  const [messageArray, setMessageArray] = useState([]);
   const room = useSelector((state) => state.roomCode);
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.on("chat message", function (msg) {
-        console.log("Message: ", msg);
-      });
+
+  socket.default.on("chat message", function (msg) {
+    console.log("Message: ", msg);
+    // let newMessageArray = messageArray;
+    // newMessageArray.push(msg);
+    // setMessageArray(newMessageArray);
   });
 
   const handleInputChange = (event) => {
@@ -24,10 +23,11 @@ const GameChat = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(message);
-    socket.emit("chat message", {
+    socket.default.emit("chat message", {
       msg: message,
       room: room,
     });
+    document.getElementById("chat-box").value = "";
     setMessage("");
   };
 
@@ -35,6 +35,9 @@ const GameChat = () => {
     <form onSubmit={(event) => handleSubmit(event)}>
       <div class="form-group">
         <label for="chat-box">Messages:</label>
+        {messageArray.map((message) => {
+          return <p>{message}</p>;
+        })}
         <textarea
           class="form-control"
           id="chat-box"

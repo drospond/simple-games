@@ -44,10 +44,10 @@ io.on("connection", (socket) => {
     io.to(data.room).emit("chat message", data.msg);
   });
   socket.on("join", (room) => {
-    // Object.keys(socket.rooms).forEach(room => {
-    //     socket.leave(room)
-    // })
-    // socket.join(room);
+    Object.keys(socket.rooms).forEach(room => {
+        socket.leave(room)
+    })
+    socket.join(room);
     console.log('user joined ' + room);
     // console.log("rooms: ", socket.rooms);
   });
