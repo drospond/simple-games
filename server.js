@@ -39,6 +39,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+  socket.on("chat message", (data) => {
+    console.log(data);
+    io.to(data.room).emit("chat message", data.msg);
+  });
   socket.on("join", (room) => {
     // Object.keys(socket.rooms).forEach(room => {
     //     socket.leave(room)
