@@ -3,19 +3,14 @@ import './GameCard.scss';
 import { Link } from 'react-router-dom';
 import {joinRoom} from '../../Redux/actions';
 import {useDispatch} from 'react-redux';
-const socket = require('../../socket.io/');
-// const io = require('socket.io-client');
-// const ENDPOINT = 'http://localhost:3001/'
 
 const GameCard = (props) => {
-  // const socket = io(ENDPOINT);
   const dispatch = useDispatch();
 
   const joinSocket = () =>{
     console.log("joining socket");
     dispatch(joinRoom("room1"));
-    sessionStorage.setItem('room', 'room1')
-    socket.default.emit('join', 'room1');
+    sessionStorage.setItem('room', 'room1');
   }
 
   return (

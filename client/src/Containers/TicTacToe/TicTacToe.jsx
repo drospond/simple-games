@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import GameChat from "../../Components/GameChat/GameChat";
 import {joinRoom} from '../../Redux/actions';
 import { connect } from 'react-redux';
-const socket = require("../../socket.io");
+const io = require("socket.io-client");
+const ENDPOINT = "http://localhost:3001/";
+const socket = io(ENDPOINT);
 
 class TicTacToe extends Component {
 
@@ -10,7 +12,7 @@ class TicTacToe extends Component {
       const room = sessionStorage.getItem('room');
       if(room){
         this.props.joinRoom(room);
-        socket.default.emit('join', room);
+        socket.emit('join', room);
       }
   }
   render() {
@@ -20,7 +22,7 @@ class TicTacToe extends Component {
           <h1 className="title">Tic-Tac-Toe</h1>
         </div>
         <div className="row">
-          <GameChat/>
+          <GameChat socket={socket}/>
         </div>
       </div>
     );

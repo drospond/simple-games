@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const mongoose = require('mongoose');
-const socketIO = require('socket.io');
-const http = require('http');
+const mongoose = require("mongoose");
+const socketIO = require("socket.io");
+const http = require("http");
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,12 +23,15 @@ app.get("/api/config", (req, res) => {
 
 app.use(express.static("client/build"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/simpleGamesDB", {
-  useNewUrlParser: true,
-  useFindAndModify: false
-});
-const userController = require('./Controllers/userController');
-app.use('/api/users', userController);
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/simpleGamesDB",
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  }
+);
+const userController = require("./Controllers/userController");
+app.use("/api/users", userController);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
@@ -44,11 +47,11 @@ io.on("connection", (socket) => {
     io.to(data.room).emit("chat message", data.msg);
   });
   socket.on("join", (room) => {
-    Object.keys(socket.rooms).forEach(room => {
-        socket.leave(room)
-    })
+    Object.keys(socket.rooms).forEach((room) => {
+      socket.leave(room);
+    });
     socket.join(room);
-    console.log('user joined ' + room);
+    console.log("user joined " + room);
   });
 });
 
