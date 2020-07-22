@@ -2,10 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mongoose = require('mongoose');
+const socketIO = require('socket.io');
+const http = require('http');
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+const server = http.Server(app);
+const io = socketIO(server);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +34,21 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });
 
-app.listen(PORT, () => {
+io.on("connection", (socket) => {
+  console.log("user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+  socket.on("join", (room) => {
+    // Object.keys(socket.rooms).forEach(room => {
+    //     socket.leave(room)
+    // })
+    // socket.join(room);
+    console.log('user joined ' + room);
+    // console.log("rooms: ", socket.rooms);
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Express App is running on http://localhost:${PORT}`);
 });
