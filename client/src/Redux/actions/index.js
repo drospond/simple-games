@@ -14,3 +14,8 @@ export const storeUser = (userObject) => ({
     type: 'STORE_USER',
     payload: {userObject}
 })
+
+export const joinRoom = (roomCode) => ({
+    type: 'JOINROOM',
+    payload: roomCode
+})
