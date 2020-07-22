@@ -49,7 +49,6 @@ io.on("connection", (socket) => {
     })
     socket.join(room);
     console.log('user joined ' + room);
-    // console.log("rooms: ", socket.rooms);
   });
 });
 

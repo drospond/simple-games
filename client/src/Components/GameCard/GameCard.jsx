@@ -14,6 +14,7 @@ const GameCard = (props) => {
   const joinSocket = () =>{
     console.log("joining socket");
     dispatch(joinRoom("room1"));
+    sessionStorage.setItem('room', 'room1')
     socket.default.emit('join', 'room1');
   }
 

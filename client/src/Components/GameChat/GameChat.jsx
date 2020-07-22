@@ -8,7 +8,7 @@ const GameChat = () => {
   const [messageArray, setMessageArray] = useState([]);
   const room = useSelector((state) => state.roomCode);
 
-  socket.default.on("chat message", function (msg) {
+  socket.default.on("chat message", msg => {
     console.log("Message: ", msg);
     // let newMessageArray = messageArray;
     // newMessageArray.push(msg);
