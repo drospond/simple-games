@@ -8,13 +8,13 @@ const GameChat = (props) => {
   const [messageArray, setMessageArray] = useState([]);
   const room = useSelector((state) => state.roomCode);
 
-  useEffect(() => {
+//   useEffect(() => {
     props.socket.on("chat message", function (msg) {
-      let newMessageArray = messageArray;
-      messageArray.push(msg);
-      setMessageArray(newMessageArray);
+    //   let newMessageArray = messageArray;
+    //   messageArray.push(msg);
+      setMessageArray([...messageArray, msg]);
     });
-  }, []);
+//   }, []);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
