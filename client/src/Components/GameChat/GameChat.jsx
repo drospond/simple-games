@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./GameChat.scss";
+import { useEffect } from "react";
 
 const GameChat = (props) => {
   const [message, setMessage] = useState("");
   const [messageArray, setMessageArray] = useState([]);
   const room = useSelector((state) => state.roomCode);
 
-  props.socket.on("chat message", function (msg) {
-    console.log("Message: ", "msg");
-    // let newMessageArray = messageArray;
-    // newMessageArray.push(msg);
-    // setMessageArray(newMessageArray);
-    // console.log(messageArray);
-  });
+  useEffect(()=>{
+    props.socket.on("chat message", function (msg) {
+        //   debugger;
+        console.log("Message: ", msg);
+        let newMessageArray = messageArray;
+        newMessageArray.push(msg);
+        setMessageArray(newMessageArray);
+        console.log(messageArray);
+      });
+  },[]);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -22,22 +26,21 @@ const GameChat = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(message);
     props.socket.emit("chat message", {
       msg: message,
       room: room,
     });
-    // document.getElementById("chat-box").value = "";
-    // setMessage("");
+    document.getElementById("chat-box").value = "";
+    setMessage("");
   };
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       <div class="form-group">
         <label for="chat-box">Messages:</label>
-        {/* {messageArray.map((message) => {
+        {messageArray.map((message) => {
           return <p>{message}</p>;
-        })} */}
+        })}
         <textarea
           class="form-control"
           id="chat-box"
