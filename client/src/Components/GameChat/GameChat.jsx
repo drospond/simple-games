@@ -8,16 +8,13 @@ const GameChat = (props) => {
   const [messageArray, setMessageArray] = useState([]);
   const room = useSelector((state) => state.roomCode);
 
-  useEffect(()=>{
+  useEffect(() => {
     props.socket.on("chat message", function (msg) {
-        //   debugger;
-        console.log("Message: ", msg);
-        let newMessageArray = messageArray;
-        newMessageArray.push(msg);
-        setMessageArray(newMessageArray);
-        console.log(messageArray);
-      });
-  },[]);
+      let newMessageArray = messageArray;
+      messageArray.push(msg);
+      setMessageArray(newMessageArray);
+    });
+  }, []);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -34,19 +31,31 @@ const GameChat = (props) => {
     setMessage("");
   };
 
+  const updateScroll = () => {
+    var element = document.getElementById("sent-messages");
+    element.scrollTop = element.scrollHeight;
+  };
+
+  useEffect(() => {
+    updateScroll();
+  }, [messageArray]);
+
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
-      <div class="form-group">
-        <label for="chat-box">Messages:</label>
-        {messageArray.map((message) => {
-          return <p>{message}</p>;
-        })}
-        <textarea
-          class="form-control"
+      <div className="form-group">
+        <label htmlFor="chat-box">Messages:</label>
+        <div id="sent-messages">
+          {messageArray.map((message) => {
+            return <p>{message}</p>;
+          })}
+        </div>
+        <input
+          className="form-control"
+          type="text"
           id="chat-box"
           rows="3"
           onChange={(event) => handleInputChange(event)}
-        ></textarea>
+        ></input>
       </div>
       <button className="btn">Send</button>
     </form>

@@ -5,7 +5,6 @@ import Navbar from "./Components/Navbar/Navbar";
 import SignIn from "./Containers/SignIn/SignIn";
 import CreateAccount from "./Containers/CreateAccount/CreateAccount";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   BrowserRouter,
