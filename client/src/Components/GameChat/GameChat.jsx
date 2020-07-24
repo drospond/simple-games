@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./GameChat.scss";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const GameChat = (props) => {
   const [message, setMessage] = useState("");
   const [messageArray, setMessageArray] = useState([]);
+  const ref = useRef(messageArray);
   const room = useSelector((state) => state.roomCode);
 
-//   useEffect(() => {
+  useEffect(() => {
+    ref.current = messageArray;
+  }, [messageArray]);
+
+  useEffect(() => {
     props.socket.on("chat message", function (msg) {
     //   let newMessageArray = messageArray;
-    //   messageArray.push(msg);
-      setMessageArray([...messageArray, msg]);
+      const newMessageArray = ref.current;
+        console.log(msg);
+      setMessageArray(newMessageArray.concat(msg));
     });
-//   }, []);
+  }, []);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
