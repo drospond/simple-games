@@ -1,9 +1,17 @@
-textarea {
-    resize: none;
-}
+@import '../../baseScss/base';
+
 #sent-messages{
     overflow: auto;
     height: 3rem;
-    background-color: black;
-    border-radius: 5px;
+    background-color: $dark;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: white 1px solid;
+    height: 12rem;
+}
+
+#chat-box{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 100%;
 }
