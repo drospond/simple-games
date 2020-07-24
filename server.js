@@ -37,15 +37,20 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });
 
+const roomArray = [];
+
 io.on("connection", (socket) => {
   console.log("user connected");
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+
   socket.on("chat message", (data) => {
     console.log(data);
     io.to(data.room).emit("chat message", data.msg);
   });
+
   socket.on("join", (room) => {
     Object.keys(socket.rooms).forEach((room) => {
       socket.leave(room);
@@ -53,6 +58,13 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("user joined " + room);
   });
+
+  socket.on("requestRoom", () =>{
+    console.log("requesting room");
+    let roomCode = Math.random().toString(36).substring(8);
+    roomArray.push(roomArray);
+    io.emit("assignRoom", roomCode);
+  })
 });
 
 server.listen(PORT, () => {

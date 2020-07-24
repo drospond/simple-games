@@ -57,6 +57,7 @@ const GameChat = (props) => {
         </div>
         <input
           className="form-control"
+          autoComplete="off"
           type="text"
           id="chat-box"
           rows="3"
