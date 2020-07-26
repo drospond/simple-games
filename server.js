@@ -62,8 +62,14 @@ io.on("connection", (socket) => {
   socket.on("requestRoom", () =>{
     console.log("requesting room");
     let roomCode = Math.random().toString(36).substring(8);
-    roomArray.push(roomArray);
+    roomArray.push(roomCode);
     io.emit("assignRoom", roomCode);
+  })
+
+  socket.on("join existing room", (room) =>{
+    console.log("joing existing room", room);
+    const roomExists = roomArray.includes(room);
+    io.emit("join permission", {roomExists, room});
   })
 });
 
