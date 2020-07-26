@@ -34,7 +34,15 @@ const GameCard = (props) => {
           class="btn btn-primary"
           onClick={() => joinSocket()}
         >
-          Play Game
+          Start Game
+        </Link>
+        <input id="room-code-input" type="text" className="form-control" placeholder="Room Code"/>
+        <Link
+          to={props.link}
+          class="btn btn-primary"
+          onClick={() => console.log("joining game")}
+        >
+          Join Game
         </Link>
       </div>
     </div>
