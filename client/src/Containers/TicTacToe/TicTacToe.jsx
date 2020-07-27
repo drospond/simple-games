@@ -29,6 +29,14 @@ class TicTacToe extends Component {
   }
   //Leave room on unmount
 
+  playerMove(event){
+    const col = event.target.getAttribute("col");
+    const row = event.target.getAttribute('row');
+    const updatedBoard = [...this.state.board];
+    updatedBoard[row][col] = "move";
+    this.setState({board: updatedBoard});
+  }
+
   render() {
     return (
       <div className="container">
@@ -46,9 +54,13 @@ class TicTacToe extends Component {
                 return (
                   <div
                     className={`tic-tac-toe-square row${rowIndex} col${colIndex}`}
+                    value={tile}
+                    row={`${rowIndex}`}
+                    col={`${colIndex}`}
                     key={`${rowIndex}-${colIndex}`}
+                    onClick={(event)=> this.playerMove(event)}
                   >
-                    O
+                    {tile}
                   </div>
                 );
               });
