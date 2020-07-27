@@ -26,6 +26,9 @@ class TicTacToe extends Component {
       this.props.joinRoom(room);
       socket.emit("join", room);
     }
+    socket.on("assign player", (playerNumber)=>{
+        console.log('player number: ', playerNumber)
+    })
   }
   //Leave room on unmount
 

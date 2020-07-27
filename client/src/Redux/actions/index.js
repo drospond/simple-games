@@ -19,3 +19,8 @@ export const joinRoom = (roomCode) => ({
     type: 'JOINROOM',
     payload: roomCode
 })
+
+export const assignPlayerumber = (playerNumber) => ({
+    type: 'ASSIGN_PLAYER_NUMBER',
+    payload: playerNumber
+})

@@ -57,6 +57,9 @@ io.on("connection", (socket) => {
     });
     socket.join(room);
     console.log("user joined " + room);
+    if(socket.adapter.rooms[room]){
+    console.log(socket.adapter.rooms[room].length);
+    }
   });
 
   socket.on("requestRoom", () =>{
