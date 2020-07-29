@@ -13,6 +13,7 @@
 }
 
 .tic-tac-toe-square{
+    color:white;
 }
 
 .row0{
@@ -34,4 +35,13 @@
 }
 .col2{
     border-left: white 1px solid;
+}
+
+.O-move{
+    border: 5px white solid;
+    margin: auto;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: 20%;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GameCard.scss";
 import { Link } from "react-router-dom";
-import { joinRoom } from "../../Redux/actions";
+import { joinRoom, assignPlayerumber } from "../../Redux/actions";
 import { useDispatch } from "react-redux";
 import socket from "../../socket.io";
 
@@ -21,10 +21,12 @@ const GameCard = (props) => {
       sessionStorage.setItem("room", assignedRoom);
       socket.emit('join', assignedRoom);
     });
-    socket.on("join permission", ({roomExists, room}) => {
+    socket.on("join permission", ({roomExists, room, playerNumber}) => {
       if(roomExists){
         dispatch(joinRoom(room));
         sessionStorage.setItem("room", room);
+        dispatch(assignPlayerumber(playerNumber));
+        sessionStorage.setItem("playerNumber", playerNumber);
         socket.emit('join', room);
       }else{
         console.log(`Room ${room} does not exits`)
@@ -34,6 +36,8 @@ const GameCard = (props) => {
 
   const joinSocket = () => {
     socket.emit("requestRoom");
+    dispatch(assignPlayerumber(1));
+    sessionStorage.setItem("playerNumber", 1);
   };
 
   const joinExistingSocket = () => {

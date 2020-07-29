@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import GameChat from "../../Components/GameChat/GameChat";
-import { joinRoom } from "../../Redux/actions";
+import { joinRoom, assignPlayerumber } from "../../Redux/actions";
 import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./TicTacToe.scss";
 
 function mapStateToProps(state) {
-  const { roomCode } = state;
-  return { roomCode: roomCode };
+  const { roomCode, playerNumber } = state;
+  return { roomCode: roomCode, playerNumber: playerNumber };
 }
 
 class TicTacToe extends Component {
@@ -22,13 +22,14 @@ class TicTacToe extends Component {
   componentDidMount() {
     console.log(this);
     const room = sessionStorage.getItem("room");
+    const playerNumber = sessionStorage.getItem("playerNumber");
+    if(playerNumber){
+        this.props.assignPlayerumber(playerNumber);
+    }
     if (room) {
       this.props.joinRoom(room);
       socket.emit("join", room);
     }
-    socket.on("assign player", (playerNumber)=>{
-        console.log('player number: ', playerNumber)
-    })
   }
   //Leave room on unmount
 
@@ -36,7 +37,8 @@ class TicTacToe extends Component {
     const col = event.target.getAttribute("col");
     const row = event.target.getAttribute('row');
     const updatedBoard = [...this.state.board];
-    updatedBoard[row][col] = "move";
+    // updatedBoard[row][col] = this.props.playerNumber;
+    updatedBoard[row][col] = "O-move";
     this.setState({board: updatedBoard});
   }
 
@@ -57,13 +59,13 @@ class TicTacToe extends Component {
                 return (
                   <div
                     className={`tic-tac-toe-square row${rowIndex} col${colIndex}`}
-                    value={tile}
                     row={`${rowIndex}`}
                     col={`${colIndex}`}
                     key={`${rowIndex}-${colIndex}`}
                     onClick={(event)=> this.playerMove(event)}
                   >
-                    {tile}
+                    {/* {tile} */}
+                    <div className={`${tile}`}></div>
                   </div>
                 );
               });
@@ -75,4 +77,6 @@ class TicTacToe extends Component {
   }
 }
 
-export default connect(mapStateToProps, { joinRoom })(TicTacToe);
+export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(TicTacToe);
+
+//TODO: fix bugs with player leaving room after another joins. try storing playerNumber in session storage

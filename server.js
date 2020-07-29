@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("user joined " + room);
     if(socket.adapter.rooms[room]){
-    console.log(socket.adapter.rooms[room].length);
+    console.log("players in room: ", socket.adapter.rooms[room].length);
     }
   });
 
@@ -72,7 +72,13 @@ io.on("connection", (socket) => {
   socket.on("join existing room", (room) =>{
     console.log("joing existing room", room);
     const roomExists = roomArray.includes(room);
-    io.emit("join permission", {roomExists, room});
+    let playerNumber;
+    if(socket.adapter.rooms[room]){
+      playerNumber = socket.adapter.rooms[room].length;
+      }else{
+        playerNumber = "error";
+      }
+    io.emit("join permission", {roomExists, room, playerNumber});
   })
 });
 
