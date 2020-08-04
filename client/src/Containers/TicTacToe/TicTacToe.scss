@@ -13,6 +13,7 @@
 }
 
 .tic-tac-toe-square{
+    position: relative;
     color:white;
 }
 
@@ -44,4 +45,24 @@
     width: 100px;
     height: 100px;
     margin-top: 20%;
+}
+.X-move{
+    position: absolute;
+    top: 75px;
+    left: 5px;
+}
+.X-1{
+    position: absolute;
+    width: 150px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: white;
+    transform: rotate(45deg);
+}
+.X-2{
+    width: 150px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: white;
+    transform: rotate(315deg);
 }

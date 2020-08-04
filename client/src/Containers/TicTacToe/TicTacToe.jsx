@@ -37,8 +37,7 @@ class TicTacToe extends Component {
     const col = event.target.getAttribute("col");
     const row = event.target.getAttribute('row');
     const updatedBoard = [...this.state.board];
-    // updatedBoard[row][col] = this.props.playerNumber;
-    updatedBoard[row][col] = "O-move";
+    updatedBoard[row][col] = this.props.playerNumber;
     this.setState({board: updatedBoard});
   }
 
@@ -65,7 +64,8 @@ class TicTacToe extends Component {
                     onClick={(event)=> this.playerMove(event)}
                   >
                     {/* {tile} */}
-                    <div className={`${tile}`}></div>
+                    {tile === "1" && <div className="O-move"></div>}
+                    {tile === "2" && <div className="X-move"><div className="X-1"></div><div className="X-2"></div></div>}
                   </div>
                 );
               });
