@@ -13,9 +13,9 @@ function mapStateToProps(state) {
 class TicTacToe extends Component {
   state = {
     board: [
-      [1, 2, 3],
-      [4, 5, 6],
-      [7, 8, 9],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
     ],
     playerTurn: 1,
   };
@@ -43,9 +43,13 @@ class TicTacToe extends Component {
   //Leave room on unmount
 
   playerMove(event) {
-    if (Number(this.props.playerNumber) === this.state.playerTurn) {
-      const col = event.target.getAttribute("col");
-      const row = event.target.getAttribute("row");
+    const col = event.target.getAttribute("col");
+    const row = event.target.getAttribute("row");
+    if (
+      Number(this.props.playerNumber) === this.state.playerTurn &&
+      row !== null &&
+      this.state.board[row][col] === 0
+    ) {
       const updatedBoard = [...this.state.board];
       updatedBoard[row][col] = this.props.playerNumber;
       socket.emit("player move", {
@@ -83,7 +87,6 @@ class TicTacToe extends Component {
                     key={`${rowIndex}-${colIndex}`}
                     onClick={(event) => this.playerMove(event)}
                   >
-                    {/* {tile} */}
                     {tile === "1" && <div className="O-move"></div>}
                     {tile === "2" && (
                       <div className="X-move">
