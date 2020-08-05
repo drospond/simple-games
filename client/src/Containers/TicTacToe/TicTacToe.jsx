@@ -33,6 +33,11 @@ class TicTacToe extends Component {
 
     socket.on("board update", data => {
         this.setState({board: data.board});
+        if(data.player === "1"){
+            this.setState({playerTurn: 2});
+        }else{
+            this.setState({playerTurn: 1});
+        }
     })
   }
   //Leave room on unmount
@@ -42,8 +47,13 @@ class TicTacToe extends Component {
     const row = event.target.getAttribute('row');
     const updatedBoard = [...this.state.board];
     updatedBoard[row][col] = this.props.playerNumber;
-    socket.emit('player move', {player: this.state.playerTurn, board: updatedBoard});
+    socket.emit('player move', {player: this.props.playerNumber, board: updatedBoard});
     this.setState({board: updatedBoard});
+    if(this.state.playerTurn === 1){
+        this.setState({playerTurn: 2});
+    }else{
+        this.setState({playerTurn: 1});
+    }
   }
 
   render() {
