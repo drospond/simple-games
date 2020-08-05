@@ -18,6 +18,7 @@ class TicTacToe extends Component {
       [0, 0, 0],
     ],
     playerTurn: 1,
+    winner: false,
   };
 
   componentDidMount() {
@@ -33,6 +34,7 @@ class TicTacToe extends Component {
 
     socket.on("board update", (data) => {
       this.setState({ board: data.board });
+      this.checkWinner(data.player);
       if (data.player === "1") {
         this.setState({ playerTurn: 2 });
       } else {
@@ -41,6 +43,34 @@ class TicTacToe extends Component {
     });
   }
   //Leave room on unmount
+
+  checkWinner(player) {
+    const { board } = this.state;
+    const col0 = board.map((row) => row[0]);
+    const col1 = board.map((row) => row[1]);
+    const col2 = board.map((row) => row[2]);
+    let diag0 = [];
+    for (let i = 0; i < board.length; i++) {
+      diag0.push(board[i][i]);
+    }
+    let diag1 = [];
+    for (let i = 0; i < board.length; i++) {
+      diag1.push(board[i][board.length - i]);
+    }
+    const allEquals = (tile) => tile === player;
+    if (
+      board[0].every(allEquals) ||
+      board[1].every(allEquals) ||
+      board[2].every(allEquals) ||
+      col0.every(allEquals) ||
+      col1.every(allEquals) ||
+      col2.every(allEquals) ||
+      diag0.every(allEquals) ||
+      diag1.every(allEquals)
+    ) {
+      this.setState({ winner: player });
+    }
+  }
 
   playerMove(event) {
     const col = event.target.getAttribute("col");
