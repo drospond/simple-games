@@ -17,42 +17,47 @@ class TicTacToe extends Component {
       [4, 5, 6],
       [7, 8, 9],
     ],
-    playerTurn: 1
+    playerTurn: 1,
   };
 
   componentDidMount() {
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
-    if(playerNumber){
-        this.props.assignPlayerumber(playerNumber);
+    if (playerNumber) {
+      this.props.assignPlayerumber(playerNumber);
     }
     if (room) {
       this.props.joinRoom(room);
       socket.emit("join", room);
     }
 
-    socket.on("board update", data => {
-        this.setState({board: data.board});
-        if(data.player === "1"){
-            this.setState({playerTurn: 2});
-        }else{
-            this.setState({playerTurn: 1});
-        }
-    })
+    socket.on("board update", (data) => {
+      this.setState({ board: data.board });
+      if (data.player === "1") {
+        this.setState({ playerTurn: 2 });
+      } else {
+        this.setState({ playerTurn: 1 });
+      }
+    });
   }
   //Leave room on unmount
 
-  playerMove(event){
-    const col = event.target.getAttribute("col");
-    const row = event.target.getAttribute('row');
-    const updatedBoard = [...this.state.board];
-    updatedBoard[row][col] = this.props.playerNumber;
-    socket.emit('player move', {player: this.props.playerNumber, board: updatedBoard});
-    this.setState({board: updatedBoard});
-    if(this.state.playerTurn === 1){
-        this.setState({playerTurn: 2});
-    }else{
-        this.setState({playerTurn: 1});
+  playerMove(event) {
+    if (Number(this.props.playerNumber) === this.state.playerTurn) {
+      const col = event.target.getAttribute("col");
+      const row = event.target.getAttribute("row");
+      const updatedBoard = [...this.state.board];
+      updatedBoard[row][col] = this.props.playerNumber;
+      socket.emit("player move", {
+        player: this.props.playerNumber,
+        board: updatedBoard,
+      });
+      this.setState({ board: updatedBoard });
+      if (this.state.playerTurn === 1) {
+        this.setState({ playerTurn: 2 });
+      } else {
+        this.setState({ playerTurn: 1 });
+      }
     }
   }
 
@@ -76,11 +81,16 @@ class TicTacToe extends Component {
                     row={`${rowIndex}`}
                     col={`${colIndex}`}
                     key={`${rowIndex}-${colIndex}`}
-                    onClick={(event)=> this.playerMove(event)}
+                    onClick={(event) => this.playerMove(event)}
                   >
                     {/* {tile} */}
                     {tile === "1" && <div className="O-move"></div>}
-                    {tile === "2" && <div className="X-move"><div className="X-1"></div><div className="X-2"></div></div>}
+                    {tile === "2" && (
+                      <div className="X-move">
+                        <div className="X-1"></div>
+                        <div className="X-2"></div>
+                      </div>
+                    )}
                   </div>
                 );
               });
@@ -92,6 +102,8 @@ class TicTacToe extends Component {
   }
 }
 
-export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(TicTacToe);
+export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
+  TicTacToe
+);
 
 //TODO: fix bugs with player leaving room after another joins. try storing playerNumber in session storage
