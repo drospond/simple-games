@@ -80,6 +80,10 @@ io.on("connection", (socket) => {
       }
     io.emit("join permission", {roomExists, room, playerNumber});
   })
+
+  socket.on("player move", data => {
+    io.emit("board update", data);
+  })
 });
 
 server.listen(PORT, () => {

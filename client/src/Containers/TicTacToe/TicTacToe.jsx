@@ -17,10 +17,10 @@ class TicTacToe extends Component {
       [4, 5, 6],
       [7, 8, 9],
     ],
+    playerTurn: 1
   };
 
   componentDidMount() {
-    console.log(this);
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
     if(playerNumber){
@@ -30,6 +30,10 @@ class TicTacToe extends Component {
       this.props.joinRoom(room);
       socket.emit("join", room);
     }
+
+    socket.on("board update", data => {
+        this.setState({board: data.board});
+    })
   }
   //Leave room on unmount
 
@@ -38,6 +42,7 @@ class TicTacToe extends Component {
     const row = event.target.getAttribute('row');
     const updatedBoard = [...this.state.board];
     updatedBoard[row][col] = this.props.playerNumber;
+    socket.emit('player move', {player: this.state.playerTurn, board: updatedBoard});
     this.setState({board: updatedBoard});
   }
 
