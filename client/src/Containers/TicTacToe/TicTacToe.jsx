@@ -73,24 +73,26 @@ class TicTacToe extends Component {
   }
 
   playerMove(event) {
-    const col = event.target.getAttribute("col");
-    const row = event.target.getAttribute("row");
-    if (
-      Number(this.props.playerNumber) === this.state.playerTurn &&
-      row !== null &&
-      this.state.board[row][col] === 0
-    ) {
-      const updatedBoard = [...this.state.board];
-      updatedBoard[row][col] = this.props.playerNumber;
-      socket.emit("player move", {
-        player: this.props.playerNumber,
-        board: updatedBoard,
-      });
-      this.setState({ board: updatedBoard });
-      if (this.state.playerTurn === 1) {
-        this.setState({ playerTurn: 2 });
-      } else {
-        this.setState({ playerTurn: 1 });
+    if (!this.state.winner) {
+      const col = event.target.getAttribute("col");
+      const row = event.target.getAttribute("row");
+      if (
+        Number(this.props.playerNumber) === this.state.playerTurn &&
+        row !== null &&
+        this.state.board[row][col] === 0
+      ) {
+        const updatedBoard = [...this.state.board];
+        updatedBoard[row][col] = this.props.playerNumber;
+        socket.emit("player move", {
+          player: this.props.playerNumber,
+          board: updatedBoard,
+        });
+        this.setState({ board: updatedBoard });
+        if (this.state.playerTurn === 1) {
+          this.setState({ playerTurn: 2 });
+        } else {
+          this.setState({ playerTurn: 1 });
+        }
       }
     }
   }
