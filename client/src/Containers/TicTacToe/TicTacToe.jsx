@@ -106,6 +106,9 @@ class TicTacToe extends Component {
         <div className="row">
           <h4 id="room-code">Room: {this.props.roomCode}</h4>
         </div>
+        {this.state.winner && <div className="row">
+          <h4 id="winner-notification">Player {this.state.winner} wins!</h4>
+        </div>}
         <div className="row">
           <GameChat socket={socket} />
           <div id="tic-tac-toe-board">
