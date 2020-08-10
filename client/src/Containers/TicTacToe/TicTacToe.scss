@@ -4,6 +4,7 @@
 }
 
 #tic-tac-toe-board{
+    position: relative;
     margin: auto;
     height: 500px;
     width: 500px;
@@ -11,6 +12,50 @@
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
 }
+
+.win-line{
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    height: 5px;
+    width: 500px;
+}
+.win0{
+    top: 75px;
+}
+.win1{
+    top: 250px;
+}
+.win2{
+    top: 425px;
+}
+.win3{
+    left: -167px;
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win4{
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win5{
+    left: 167px;
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win6{
+    left: -100px;
+    width: 700px;
+    top: 250px;
+    transform: rotate(45deg);
+}
+.win7{
+    left: -100px;
+    width: 700px;
+    top: 250px;
+    transform: rotate(-45deg);
+}
+
 
 .tic-tac-toe-square{
     position: relative;

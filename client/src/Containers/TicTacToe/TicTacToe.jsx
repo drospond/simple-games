@@ -58,16 +58,25 @@ class TicTacToe extends Component {
       diag1.push(board[i][board.length - i]);
     }
     const allEquals = (tile) => tile === player;
-    if (
-      board[0].every(allEquals) ||
-      board[1].every(allEquals) ||
-      board[2].every(allEquals) ||
-      col0.every(allEquals) ||
-      col1.every(allEquals) ||
-      col2.every(allEquals) ||
-      diag0.every(allEquals) ||
-      diag1.every(allEquals)
-    ) {
+    let winCondition = false;
+    if (board[0].every(allEquals)) {
+      winCondition = 0;
+    } else if (board[1].every(allEquals)) {
+      winCondition = 1;
+    } else if (board[2].every(allEquals)) {
+      winCondition = 2;
+    } else if (col0.every(allEquals)) {
+      winCondition = 3;
+    } else if (col1.every(allEquals)) {
+      winCondition = 4;
+    } else if (col2.every(allEquals)) {
+      winCondition = 5;
+    } else if (diag0.every(allEquals)) {
+      winCondition = 6;
+    } else if (diag1.every(allEquals)) {
+      winCondition = 7;
+    }
+    if (winCondition) {
       this.setState({ winner: player });
     }
   }
@@ -106,12 +115,15 @@ class TicTacToe extends Component {
         <div className="row">
           <h4 id="room-code">Room: {this.props.roomCode}</h4>
         </div>
-        {this.state.winner && <div className="row">
-          <h4 id="winner-notification">Player {this.state.winner} wins!</h4>
-        </div>}
+        {this.state.winner && (
+          <div className="row">
+            <h4 id="winner-notification">Player {this.state.winner} wins!</h4>
+          </div>
+        )}
         <div className="row">
           <GameChat socket={socket} />
           <div id="tic-tac-toe-board">
+            <div className="win-line"></div>
             {this.state.board.map((row, rowIndex) => {
               return row.map((tile, colIndex) => {
                 return (
