@@ -1,0 +1,113 @@
+#room-code, #winner-notification{
+    color: white;
+    margin: auto;
+}
+
+#tic-tac-toe-board{
+    position: relative;
+    margin: auto;
+    height: 500px;
+    width: 500px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.win-line{
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    height: 5px;
+    width: 500px;
+}
+.win0{
+    top: 75px;
+}
+.win1{
+    top: 250px;
+}
+.win2{
+    top: 425px;
+}
+.win3{
+    left: -167px;
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win4{
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win5{
+    left: 167px;
+    top: 250px;
+    transform: rotate(90deg);
+}
+.win6{
+    left: -100px;
+    width: 700px;
+    top: 250px;
+    transform: rotate(45deg);
+}
+.win7{
+    left: -100px;
+    width: 700px;
+    top: 250px;
+    transform: rotate(-45deg);
+}
+
+
+.tic-tac-toe-square{
+    position: relative;
+    color:white;
+}
+
+.row0{
+    border-bottom: white 1px solid;
+}
+.row1{
+    border-bottom: white 1px solid;
+    border-top: white 1px solid;
+}
+.row2{
+    border-top: white 1px solid;
+}
+.col0{
+    border-right: white 1px solid;
+}
+.col1{
+    border-right: white 1px solid;
+    border-left: white 1px solid;
+}
+.col2{
+    border-left: white 1px solid;
+}
+
+.O-move{
+    border: 5px white solid;
+    margin: auto;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: 20%;
+}
+.X-move{
+    position: absolute;
+    top: 75px;
+    left: 5px;
+}
+.X-1{
+    position: absolute;
+    width: 150px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: white;
+    transform: rotate(45deg);
+}
+.X-2{
+    width: 150px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: white;
+    transform: rotate(315deg);
+}

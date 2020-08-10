@@ -21,9 +21,9 @@ const Navbar = () => {
           </Link>
         </li>):
         (<li className="nav-item">
-        <a className="nav-link" onClick={() => dispatch(signOut())}>
+        <p className="nav-link" onClick={() => dispatch(signOut())}>
           Sign out
-        </a>
+        </p>
       </li>)
         }
       </ul>

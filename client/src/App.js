@@ -5,11 +5,11 @@ import Navbar from "./Components/Navbar/Navbar";
 import SignIn from "./Containers/SignIn/SignIn";
 import CreateAccount from "./Containers/CreateAccount/CreateAccount";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   BrowserRouter,
 } from "react-router-dom";
+import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 
 function App() {
   return (
@@ -24,6 +24,11 @@ function App() {
           exact
           path="/createAccount"
           render={(props) => <CreateAccount {...props} />}
+        />
+        <Route
+          exact
+          path="/TicTacToe"
+          render={(props) => <TicTacToe {...props} />}
         />
       </Switch>
     </BrowserRouter>

@@ -10,7 +10,7 @@ class Home extends Component {
           <h1 className="title">Simple Games</h1>
         </div>
         <div className="row card-row">
-          <GameCard />
+          <GameCard link="/TicTacToe"/>
         </div>
       </div>
     );
