@@ -42,8 +42,7 @@ class TicTacToe extends Component {
       }
     });
   }
-  //Leave room on unmount
-
+  
   checkWinner(player) {
     const { board } = this.state;
     const col0 = board.map((row) => row[0]);
