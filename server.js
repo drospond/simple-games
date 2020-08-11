@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
     console.log("requesting room");
     let roomCode = Math.random().toString(36).substring(8);
     roomArray.push(roomCode);
-    io.emit("assignRoom", roomCode);
+    socket.emit("assignRoom", roomCode);
   })
 
   socket.on("join existing room", (room) =>{
@@ -74,11 +74,11 @@ io.on("connection", (socket) => {
     const roomExists = roomArray.includes(room);
     let playerNumber;
     if(socket.adapter.rooms[room]){
-      playerNumber = socket.adapter.rooms[room].length;
+      playerNumber = socket.adapter.rooms[room].length + 1;
       }else{
         playerNumber = "error";
       }
-    io.emit("join permission", {roomExists, room, playerNumber});
+    socket.emit("join permission", {roomExists, room, playerNumber});
   })
 
   socket.on("player move", data => {
