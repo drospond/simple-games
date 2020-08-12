@@ -81,6 +81,11 @@ class TicTacToe extends Component {
     }
   }
 
+  drawWinLine(winCondition){
+    const winLine = document.getElementById('win-line');
+    switch(winCondition){}
+  }
+
   playerMove(event) {
     if (!this.state.winner) {
       const col = event.target.getAttribute("col");
@@ -123,7 +128,7 @@ class TicTacToe extends Component {
         <div className="row">
           <GameChat socket={socket} />
           <div id="tic-tac-toe-board">
-            <div className="win-line"></div>
+            <div id="win-line" className="win-line"></div>
             {this.state.board.map((row, rowIndex) => {
               return row.map((tile, colIndex) => {
                 return (

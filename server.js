@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
     const roomExists = roomArray.includes(room);
     let playerNumber;
     if(socket.adapter.rooms[room]){
-      playerNumber = socket.adapter.rooms[room].length + 1;
+      playerNumber = `${socket.adapter.rooms[room].length + 1}`;
       }else{
         playerNumber = "error";
       }
