@@ -78,12 +78,39 @@ class TicTacToe extends Component {
     }
     if (winCondition) {
       this.setState({ winner: player });
+      this.drawWinLine(winCondition);
     }
   }
 
   drawWinLine(winCondition){
     const winLine = document.getElementById('win-line');
-    switch(winCondition){}
+    winLine.classList.add('visible');
+    switch(winCondition){
+      case 0:
+        winLine.classList.add('win0');
+        break;
+      case 1:
+        winLine.classList.add('win1');
+        break;
+      case 2:
+        winLine.classList.add('win2');
+        break;
+      case 3:
+        winLine.classList.add('win3');
+        break;
+      case 4:
+        winLine.classList.add('win4');
+        break;
+      case 5:
+        winLine.classList.add('win5');
+        break;
+      case 6:
+        winLine.classList.add('win6');
+        break;
+      case 7:
+        winLine.classList.add('win7');
+        break;
+    }
   }
 
   playerMove(event) {

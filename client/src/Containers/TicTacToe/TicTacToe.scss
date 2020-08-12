@@ -19,6 +19,7 @@
     border-radius: 10px;
     height: 5px;
     width: 500px;
+    visibility: hidden;
 }
 .win0{
     top: 75px;
@@ -54,6 +55,9 @@
     width: 700px;
     top: 250px;
     transform: rotate(-45deg);
+}
+.visible{
+    visibility: visible !important;
 }
 
 
