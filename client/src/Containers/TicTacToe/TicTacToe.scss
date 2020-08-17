@@ -59,7 +59,15 @@
 .visible{
     visibility: visible !important;
 }
-
+#play-again-switch{
+    color: pink;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+        color: rgb(250, 150, 167);
+        cursor: pointer;
+    }
+}
 
 .tic-tac-toe-square{
     position: relative;

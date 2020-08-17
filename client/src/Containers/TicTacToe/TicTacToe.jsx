@@ -149,7 +149,7 @@ class TicTacToe extends Component {
         </div>
         {this.state.winner && (
           <div className="row">
-            <h4 id="winner-notification">Player {this.state.winner} wins!</h4>
+            <h4 id="winner-notification">Player {this.state.winner} wins!<h4 id="play-again-switch">Play again?</h4></h4>
           </div>
         )}
         <div className="row">
@@ -187,5 +187,3 @@ class TicTacToe extends Component {
 export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
   TicTacToe
 );
-
-//TODO: fix bugs with player leaving room after another joins. try storing playerNumber in session storage
