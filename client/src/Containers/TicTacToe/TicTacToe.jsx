@@ -41,6 +41,18 @@ class TicTacToe extends Component {
         this.setState({ playerTurn: 1 });
       }
     });
+
+    socket.on("reset board", () => {
+      this.setState({
+        board: [
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+        ],
+        winner: false,
+      });
+      document.getElementById("win-line").className = "";
+    });
   }
   //Leave room on unmount
 
@@ -82,33 +94,33 @@ class TicTacToe extends Component {
     }
   }
 
-  drawWinLine(winCondition){
-    const winLine = document.getElementById('win-line');
-    winLine.classList.add('visible');
-    switch(winCondition){
+  drawWinLine(winCondition) {
+    const winLine = document.getElementById("win-line");
+    winLine.classList.add("visible");
+    switch (winCondition) {
       case 0:
-        winLine.classList.add('win0');
+        winLine.classList.add("win0");
         break;
       case 1:
-        winLine.classList.add('win1');
+        winLine.classList.add("win1");
         break;
       case 2:
-        winLine.classList.add('win2');
+        winLine.classList.add("win2");
         break;
       case 3:
-        winLine.classList.add('win3');
+        winLine.classList.add("win3");
         break;
       case 4:
-        winLine.classList.add('win4');
+        winLine.classList.add("win4");
         break;
       case 5:
-        winLine.classList.add('win5');
+        winLine.classList.add("win5");
         break;
       case 6:
-        winLine.classList.add('win6');
+        winLine.classList.add("win6");
         break;
       case 7:
-        winLine.classList.add('win7');
+        winLine.classList.add("win7");
         break;
     }
   }
@@ -138,6 +150,10 @@ class TicTacToe extends Component {
     }
   }
 
+  playAgain() {
+    socket.emit("play again", { room: this.props.roomCode });
+  }
+
   render() {
     return (
       <div className="container">
@@ -149,7 +165,12 @@ class TicTacToe extends Component {
         </div>
         {this.state.winner && (
           <div className="row">
-            <h4 id="winner-notification">Player {this.state.winner} wins!<h4 id="play-again-switch">Play again?</h4></h4>
+            <h4 id="winner-notification">
+              Player {this.state.winner} wins!
+              <span id="play-again-switch" onClick={() => this.playAgain()}>
+                Play again?
+              </span>
+            </h4>
           </div>
         )}
         <div className="row">

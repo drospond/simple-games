@@ -84,6 +84,10 @@ io.on("connection", (socket) => {
   socket.on("player move", data => {
     io.emit("board update", data);
   })
+
+  socket.on('play again', (data) => {
+    io.to(data.room).emit("reset board");
+  })
 });
 
 server.listen(PORT, () => {
