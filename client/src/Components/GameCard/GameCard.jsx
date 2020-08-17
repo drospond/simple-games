@@ -47,12 +47,12 @@ const GameCard = (props) => {
   return (
     <div className="card game-card text-center">
       <img
-        src="https://via.placeholder.com/280X180"
+        src={props.img}
         className="card-img-top"
-        alt="..."
+        alt={props.title}
       />
       <div className="card-body">
-        <h5 className="card-title">Test Game</h5>
+        <h5 className="card-title">{props.title}</h5>
         <Link
           to={props.link}
           className="btn btn-primary"
