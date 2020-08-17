@@ -18,3 +18,12 @@ nav {
     @extend %pink-neon-text;
   }
 }
+
+.navbar-nav{
+  flex-direction: row;
+}
+
+#nav-username{
+  margin-right: 1.5rem;
+}
+
