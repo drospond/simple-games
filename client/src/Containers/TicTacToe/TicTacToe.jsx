@@ -174,7 +174,6 @@ class TicTacToe extends Component {
           </div>
         )}
         <div className="row">
-          <GameChat socket={socket} />
           <div id="tic-tac-toe-board">
             <div id="win-line" className="win-line"></div>
             {this.state.board.map((row, rowIndex) => {
@@ -199,6 +198,7 @@ class TicTacToe extends Component {
               });
             })}
           </div>
+          <GameChat socket={socket} />
         </div>
       </div>
     );
