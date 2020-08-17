@@ -67,7 +67,7 @@ class TicTacToe extends Component {
     }
     let diag1 = [];
     for (let i = 0; i < board.length; i++) {
-      diag1.push(board[i][board.length - i]);
+      diag1.push(board[i][board.length - 1 - i]);
     }
     const allEquals = (tile) => tile === player;
     let winCondition = false;
