@@ -32,7 +32,7 @@ const GameChat = (props) => {
       msg: message,
       room: room,
     });
-    document.getElementById("chat-box").value = "";
+    document.getElementById("message-input").value = "";
     setMessage("");
   };
 
@@ -46,9 +46,9 @@ const GameChat = (props) => {
   }, [messageArray]);
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
+    <form id="chat-form" onSubmit={(event) => handleSubmit(event)}>
       <div className="form-group">
-        <label htmlFor="chat-box">Messages:</label>
+        <label htmlFor="message-input">Messages:</label>
         <div id="sent-messages">
           {messageArray.map((message) => {
             return <p>{message}</p>;

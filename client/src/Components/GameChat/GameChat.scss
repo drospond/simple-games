@@ -1,5 +1,9 @@
 @import '../../baseScss/base';
 
+#chat-form{
+    max-width: 200px;
+}
+
 #sent-messages{
     overflow: auto;
     height: 3rem;
@@ -8,10 +12,11 @@
     border-top-right-radius: 5px;
     border: white 1px solid;
     height: 12rem;
+    overflow-wrap: break-word;
 }
 
 #message-input{
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
-    width: 100%;
+    // width: 100%;
 }
