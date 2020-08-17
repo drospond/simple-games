@@ -15,7 +15,6 @@ const GameChat = (props) => {
 
   useEffect(() => {
     props.socket.on("chat message", function (msg) {
-    //   let newMessageArray = messageArray;
       const newMessageArray = ref.current;
         console.log(msg);
       setMessageArray(newMessageArray.concat(msg));
@@ -59,7 +58,7 @@ const GameChat = (props) => {
           className="form-control"
           autoComplete="off"
           type="text"
-          id="chat-box"
+          id="message-input"
           rows="3"
           onChange={(event) => handleInputChange(event)}
         ></input>
