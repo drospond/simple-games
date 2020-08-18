@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
 
   socket.on("chat message", (data) => {
     console.log(data);
-    io.to(data.room).emit("chat message", data.msg);
+    io.to(data.room).emit("chat message", {msg: data.msg, user: data.user});
   });
 
   socket.on("join", (room) => {

@@ -31,3 +31,22 @@
     border-top-right-radius: 0px;
     // width: 100%;
 }
+
+.chat-block{
+    // line-height: .5rem;
+    padding: .5rem;
+    margin-top: 1.5rem;
+    // max-width: 75%;
+    // @extend %pink-neon-border;
+}
+
+.other-username{
+    color: pink;
+}
+.current-username{
+    color: rgb(110, 183, 231);
+}
+
+p{
+    margin-block-end: 0px !important;
+}
