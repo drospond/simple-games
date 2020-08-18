@@ -168,6 +168,7 @@ class TicTacToe extends Component {
             <h4 id="winner-notification">
               Player {this.state.winner} wins!
               <span id="play-again-switch" onClick={() => this.playAgain()}>
+                {" "}
                 Play again?
               </span>
             </h4>
