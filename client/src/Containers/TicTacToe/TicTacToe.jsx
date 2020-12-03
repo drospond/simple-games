@@ -88,7 +88,7 @@ class TicTacToe extends Component {
     } else if (diag1.every(allEquals)) {
       winCondition = 7;
     }
-    if (winCondition) {
+    if (winCondition !== false) {
       this.setState({ winner: player });
       this.drawWinLine(winCondition);
     }
@@ -163,6 +163,20 @@ class TicTacToe extends Component {
         <div className="row">
           <h4 id="room-code">Room: {this.props.roomCode}</h4>
         </div>
+        {Number(this.state.playerTurn) === Number(this.props.playerNumber) && (
+          <div className="row">
+            <h4 id="winner-notification">
+              Your turn
+            </h4>
+          </div>
+        )}
+        {Number(this.state.playerTurn) !== Number(this.props.playerNumber) && (
+          <div className="row">
+            <h4 id="winner-notification">
+              Their turn
+            </h4>
+          </div>
+        )}
         {this.state.winner && (
           <div className="row">
             <h4 id="winner-notification">
