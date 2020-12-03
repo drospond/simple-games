@@ -15,7 +15,7 @@ const Navbar = () => {
         Simple Games
       </a>
       <ul className="navbar-nav ml-auto">
-        {user && <li id="nav-username" className="nav-item nav-link">{user.userObject.userName}</li>}
+        {user && isSignedIn && <li id="nav-username" className="nav-item nav-link">{user.userObject.userName}</li>}
         {!isSignedIn ? (
           <li className="nav-item">
             <Link to="/signin" className="nav-link">
