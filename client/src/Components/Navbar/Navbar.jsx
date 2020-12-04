@@ -11,9 +11,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-dark justify-content-between">
-      <a className="navbar-brand" href="/">
+      <Link className="navbar-brand" to="/">
         Simple Games
-      </a>
+      </Link>
       <ul className="navbar-nav ml-auto">
         {user && isSignedIn && <li id="nav-username" className="nav-item nav-link">{user.userObject.userName}</li>}
         {!isSignedIn ? (
