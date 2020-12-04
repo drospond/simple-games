@@ -86,4 +86,12 @@ router.post("/signin", (req, res) => {
     });
 });
 
+router.get("/updateWins/:game/:user", (req, res)=>{
+  const updateobject = {$inc:{}}
+  updateobject.$inc[`games.${req.params.game}.wins`] = 1;
+  User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
+    res.status(200)
+  })
+})
+
 module.exports = router;

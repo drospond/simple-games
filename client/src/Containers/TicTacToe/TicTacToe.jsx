@@ -4,12 +4,12 @@ import { joinRoom, assignPlayerumber } from "../../Redux/actions";
 import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./TicTacToe.scss";
+import Axios from "axios";
 
 function mapStateToProps(state) {
-  const { roomCode, playerNumber } = state;
-  return { roomCode: roomCode, playerNumber: playerNumber };
+  const { roomCode, playerNumber, signInState } = state;
+  return { roomCode: roomCode, playerNumber: playerNumber, signInState: signInState };
 }
-
 class TicTacToe extends Component {
   state = {
     board: [
@@ -20,7 +20,7 @@ class TicTacToe extends Component {
     playerTurn: 1,
     winner: false,
   };
-
+  
   componentDidMount() {
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
@@ -55,6 +55,10 @@ class TicTacToe extends Component {
     });
   }
   //Leave room on unmount
+  updateWins(){
+    Axios.get(`/api/users/updateWins/tictactoe/${this.props.signInState.user.userObject._id}`);
+    console.log(`Updating wins of player id: ${this.props.signInState.user.userObject._id}`);
+  }
 
   checkWinner(player) {
     const { board } = this.state;
@@ -91,6 +95,10 @@ class TicTacToe extends Component {
     if (winCondition !== false) {
       this.setState({ winner: player });
       this.drawWinLine(winCondition);
+      if(this.props.signInState.user && player === this.props.playerNumber){
+        this.updateWins();
+      }
+      
     }
   }
 
