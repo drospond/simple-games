@@ -16,7 +16,12 @@ function mapStateToProps(state) {
 }
 
 class HangMan extends Component {
-  state = {};
+  state = {
+    word: [],
+    guess: [],
+    letterBank: [],
+    wrongGuesses: 0,
+  };
 
   componentDidMount() {
     const room = sessionStorage.getItem("room");
@@ -41,9 +46,29 @@ class HangMan extends Component {
     // });
 
     // socket.on("reset board", () => {
-      
+
     // });
   }
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value.toUpperCase().split(''),
+      error: false
+    });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if(/^(\w ?[,'-]?){4,64}$/.test(this.state.word.join(''))){
+        document.getElementById('hang-man-form').className = "hidden";
+        console.log("SUBMIT!!");
+    }else{
+        this.setState({
+            error: "Invalid entry. Word/phrase can't contain special characters other than a comma, appostrophe, or dash and must be less that 64 characters."
+        })
+    }
+  };
 
   render() {
     return (
@@ -53,6 +78,25 @@ class HangMan extends Component {
         </div>
         <div className="row">
           <h4 id="room-code">Room: {this.props.roomCode}</h4>
+        </div>
+        <div className="row">
+          <div id="hang-man-board">
+            {this.props.playerNumber == 1 && (
+              <form onSubmit={e=>this.handleSubmit(e)} id="hang-man-form">
+                <h4 id="hang-man-question">Choose a word or phrase</h4>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="hangManWordInput"
+                  name="word"
+                  onChange={this.handleChange}
+                />
+                <button type="submit" id="submit-word" class="btn btn-primary">
+                  Submit
+                </button>
+              </form>
+            )}
+          </div>
         </div>
         <div className="row">
           <GameChat socket={socket} />

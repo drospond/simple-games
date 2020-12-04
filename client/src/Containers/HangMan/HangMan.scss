@@ -1,0 +1,27 @@
+#hang-man-board{
+    margin: auto;
+    width: 100%;
+}
+
+#hang-man-form{
+    margin-top: 60px;
+    text-align: center;
+}
+
+#hang-man-question{
+    color: white;
+}
+
+#hangManWordInput{
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+#submit-word{
+    margin-top: 10px;
+}
+
+.hidden{
+    visibility: hidden;
+}
