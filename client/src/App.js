@@ -10,6 +10,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
+import HangMan from "./Containers/HangMan/HangMan";
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
           exact
           path="/TicTacToe"
           render={(props) => <TicTacToe {...props} />}
+        />
+        <Route
+          exact
+          path="/HangMan"
+          render={(props) => <HangMan {...props} />}
         />
       </Switch>
     </BrowserRouter>
