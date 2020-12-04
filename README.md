@@ -23,7 +23,6 @@ Simple games is a web application that contains a collection of some basic games
 * Much much more
 ### Bugs
 * Messages don't send from signed in users on Heroku deployed app
-* Different rooms appear to be communicating games instructions with eachother
 
 ## Links
 Deployed at:  https://simple-games8723.herokuapp.com/

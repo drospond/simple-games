@@ -33,6 +33,7 @@ class TicTacToe extends Component {
     }
 
     socket.on("board update", (data) => {
+      console.log('board update: ', data);
       this.setState({ board: data.board });
       this.checkWinner(data.player);
       if (data.player === "1") {
@@ -147,6 +148,7 @@ class TicTacToe extends Component {
         socket.emit("player move", {
           player: this.props.playerNumber,
           board: updatedBoard,
+          room: this.props.roomCode
         });
         this.setState({ board: updatedBoard });
         if (this.state.playerTurn === 1) {

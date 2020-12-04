@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("player move", data => {
-    io.emit("board update", data);
+    io.to(data.room).emit("board update", data);
   })
 
   socket.on('play again', (data) => {
