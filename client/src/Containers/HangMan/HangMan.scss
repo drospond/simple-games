@@ -1,6 +1,78 @@
 #hang-man-board{
     margin: auto;
     width: 100%;
+    position: relative;
+}
+
+.hang-piece{
+    background-color: white;
+    border-radius: 10px;
+    height: 5px;
+    position: absolute;
+}
+
+.hang-base{
+    width: 200px;
+    top:280px;
+}
+
+.hang-staff{
+    transform: rotate(90deg);
+    width: 200px;
+    left: -25px;
+}
+
+.hang-reach{
+    width: 100px;
+    top: 85px;
+    left: 75px;
+}
+
+.hang-rope{
+    transform: rotate(90deg);
+    width: 25px;
+    top: 97px;
+    left: 160px;
+}
+
+.hang-head{
+    position: absolute;
+    border: 5px white solid;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    top: 107px;
+    left: 145px;
+}
+.hang-body{
+    transform: rotate(90deg);
+    width: 55px;
+    top: 186px;
+    left: 146px;
+}
+.hang-arm-l{
+    transform: rotate(45deg);
+    width: 35px;
+    top: 170px;
+    left: 144px;
+}
+.hang-arm-r{
+    transform: rotate(-45deg);
+    width: 35px;
+    top: 170px;
+    left: 168px;
+}
+.hang-leg-l{
+    transform: rotate(-45deg);
+    width: 35px;
+    top: 223px;
+    left: 144px;
+}
+.hang-leg-r{
+    transform: rotate(45deg);
+    width: 35px;
+    top: 223px;
+    left: 168px;
 }
 
 #hang-man-form{
@@ -24,4 +96,8 @@
 
 .hidden{
     visibility: hidden;
+}
+
+.letter-line{
+    width: 50px;
 }

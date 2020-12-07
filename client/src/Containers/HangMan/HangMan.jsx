@@ -96,6 +96,17 @@ class HangMan extends Component {
                 </button>
               </form>
             )}
+            <div className="hang-piece hang-base"></div>
+            <div className="hang-piece hang-staff"></div>
+            <div className="hang-piece hang-reach"></div>
+            <div className="hang-piece hang-rope"></div>
+            <div className="hang-head"></div>
+            <div className="hang-piece hang-body"></div>
+            <div className="hang-piece hang-arm-l"></div>
+            <div className="hang-piece hang-arm-r"></div>
+            <div className="hang-piece hang-leg-l"></div>
+            <div className="hang-piece hang-leg-r"></div>
+            <div className="hang-piece letter-line"></div>
           </div>
         </div>
         <div className="row">
