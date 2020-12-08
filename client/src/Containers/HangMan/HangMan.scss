@@ -80,12 +80,24 @@
     margin-top: 60px;
     text-align: center;
 }
+#guess-form{
+    text-align: center;
+}
+#hangManLetterInput{
+    max-width: 4rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: auto;
+}
 
 .hang-man-question{
     color: white;
 }
 
 #hangManWordInput{
+    text-transform: uppercase;
     width: 50%;
     margin: auto;
     text-align: center;
@@ -124,4 +136,11 @@
     position: relative;
     margin-top: -5px;
     width: 50px;
+}
+
+.guessed-letter-section{
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    letter-spacing: 1rem;
 }
