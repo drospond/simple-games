@@ -83,43 +83,43 @@ class HangMan extends Component {
     }
   };
 
-  checkWin = () =>{
-      let winCondition = true;
-      this.state.word.forEach(letter=>{
-          if(!this.state.guesses.includes(letter)){
-              winCondition = false;
-          }
-      })
-      if(winCondition){
-          this.setState({
-            winCondition: winCondition
-          })
+  checkWin = () => {
+    let winCondition = true;
+    this.state.word.forEach((letter) => {
+      if (!this.state.guesses.includes(letter)) {
+        winCondition = false;
       }
-  }
+    });
+    if (winCondition) {
+      this.setState({
+        winCondition: winCondition,
+      });
+    }
+  };
 
   handleGuess = (event) => {
     event.preventDefault();
     if (!/[a-zA-z]?/.test(this.state.letterGuess)) {
-      document.getElementById('guess-form').reset();
+      document.getElementById("guess-form").reset();
       return this.setState({
         error: "Must guess a letter!",
       });
     }
     if (this.state.guesses.includes(this.state.letterGuess)) {
-      document.getElementById('guess-form').reset();
+      document.getElementById("guess-form").reset();
       return this.setState({
         error: "Letter already guessed!",
       });
     }
     if (!this.state.word.includes(this.state.letterGuess)) {
-        this.setState({
-          wrongGuesses: this.state.wrongGuesses + 1,
-        });
+      this.setState({
+        wrongGuesses: this.state.wrongGuesses + 1,
+      });
     }
     this.setState({
       guesses: this.state.guesses.concat(this.state.letterGuess),
     });
-    document.getElementById('guess-form').reset();
+    document.getElementById("guess-form").reset();
     this.checkWin();
     // TODO handle async issue with state setting after win check
   };
@@ -134,10 +134,54 @@ class HangMan extends Component {
   ];
 
   render() {
-      const renderedHangManPieces = []
-      for(let i = 0; i < this.state.wrongGuesses; i++){
-            renderedHangManPieces.push(this.hangManPieces[i]);
-      }
+    const renderedHangManPieces = [];
+    for (let i = 0; i < this.state.wrongGuesses; i++) {
+      renderedHangManPieces.push(this.hangManPieces[i]);
+    }
+    let singleWord = [];
+    const hangPhrase = [];
+    this.state.word.forEach((letter, index) => {
+        let letterClass = "";
+        if (/[ ]/.test(letter)) {
+          letter = "___";
+          letterClass = "hidden";
+        }
+        if (
+          /[A-Z]/.test(letter) &&
+          !this.state.guesses.includes(letter)
+        ) {
+          letterClass = "hidden";
+        }
+        if (/[_+'-]/.test(letter)) {
+          return hangPhrase.push(
+            <div className="hang-letter">
+              <div className={letterClass}>{letter}</div>
+            </div>
+          );
+        }
+        if (index === this.state.word.length-1 || this.state.word[index + 1] === " "){
+            singleWord.push(
+              <div className="hang-letter">
+                <div className={letterClass}>{letter}</div>
+                <div className="hang-piece letter-line"></div>
+              </div>
+            );
+            hangPhrase.push(
+                <div className='hang-word'>
+                    {singleWord}
+                </div>
+            )
+            singleWord = [];
+        }else{
+            singleWord.push(
+                <div className="hang-letter">
+                  <div className={letterClass}>{letter}</div>
+                  <div className="hang-piece letter-line"></div>
+                </div>
+              );
+        }
+      })
+      
     return (
       <div className="container">
         <div className="row title-row">
@@ -184,32 +228,7 @@ class HangMan extends Component {
                     })}
                   </div>
                   <div id="word-section">
-                    {this.state.word.map((letter) => {
-                      let letterClass = "";
-                      if (/[ ]/.test(letter)) {
-                        letter = "___";
-                        letterClass = "hidden";
-                      }
-                      if (
-                        /[A-Z]/.test(letter) &&
-                        !this.state.guesses.includes(letter)
-                      ) {
-                        letterClass = "hidden";
-                      }
-                      if (/[_+'-]/.test(letter)) {
-                        return (
-                          <div className="hang-letter">
-                            <div className={letterClass}>{letter}</div>
-                          </div>
-                        );
-                      }
-                      return (
-                        <div className="hang-letter">
-                          <div className={letterClass}>{letter}</div>
-                          <div className="hang-piece letter-line"></div>
-                        </div>
-                      );
-                    })}
+                    {hangPhrase}
                   </div>
                 </div>
               </div>

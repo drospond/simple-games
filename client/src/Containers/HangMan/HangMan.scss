@@ -125,6 +125,10 @@
     position: relative;
     text-align: center;
 }
+.hang-word{
+    float: left;
+    display: flex;
+}
 .hang-letter{
     float: left;
     color: white;
