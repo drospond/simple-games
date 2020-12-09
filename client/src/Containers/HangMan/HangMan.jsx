@@ -22,6 +22,7 @@ class HangMan extends Component {
     letterGuess: "",
     letterBank: [],
     wrongGuesses: 0,
+    winCondition: false,
   };
 
   componentDidMount() {
@@ -82,15 +83,30 @@ class HangMan extends Component {
     }
   };
 
+  checkWin = () =>{
+      let winCondition = true;
+      this.state.word.forEach(letter=>{
+          if(!this.state.guesses.includes(letter)){
+              winCondition = false;
+          }
+      })
+      if(winCondition){
+          this.setState({
+            winCondition: winCondition
+          })
+      }
+  }
+
   handleGuess = (event) => {
     event.preventDefault();
     if (!/[a-zA-z]?/.test(this.state.letterGuess)) {
-      this.setState({
+      document.getElementById('guess-form').reset();
+      return this.setState({
         error: "Must guess a letter!",
       });
-      return;
     }
     if (this.state.guesses.includes(this.state.letterGuess)) {
+      document.getElementById('guess-form').reset();
       return this.setState({
         error: "Letter already guessed!",
       });
@@ -103,6 +119,9 @@ class HangMan extends Component {
     this.setState({
       guesses: this.state.guesses.concat(this.state.letterGuess),
     });
+    document.getElementById('guess-form').reset();
+    this.checkWin();
+    // TODO handle async issue with state setting after win check
   };
 
   hangManPieces = [
