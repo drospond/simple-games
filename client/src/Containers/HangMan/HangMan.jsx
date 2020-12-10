@@ -20,9 +20,9 @@ class HangMan extends Component {
     word: [],
     guesses: [],
     letterGuess: "",
-    letterBank: [],
     wrongGuesses: 0,
     winCondition: false,
+    lossCondition: false,
   };
 
   componentDidMount() {
@@ -87,7 +87,6 @@ class HangMan extends Component {
     let winCondition = true;
     this.state.word.forEach((letter) => {
       if (/[a-zA-z]{1}/.test(letter) && !this.state.guesses.includes(letter)) {
-        console.log(`"${letter}" triggered a false win condition`);
         winCondition = false;
       }
     });
@@ -95,6 +94,16 @@ class HangMan extends Component {
       this.setState({
         winCondition: winCondition,
       });
+    }
+  };
+
+  checkLoss = () => {
+    if (this.state.wrongGuesses === 6) {
+      this.setState({
+        lossCondition: true,
+      });
+      document.getElementById("guess-form").className = "no-display";
+      //   document.getElementById('guess-form').className = 'no-display';
     }
   };
 
@@ -117,10 +126,29 @@ class HangMan extends Component {
         wrongGuesses: this.state.wrongGuesses + 1,
       });
     }
-    this.setState({
-      guesses: this.state.guesses.concat(this.state.letterGuess),
-    },()=>{this.checkWin()});
+    this.setState(
+      {
+        guesses: this.state.guesses.concat(this.state.letterGuess),
+      },
+      () => {
+        this.checkWin();
+        this.checkLoss();
+      }
+    );
     document.getElementById("guess-form").reset();
+  };
+
+  resetBoard = () => {
+    document.getElementById("hang-man-form").classList.remove("no-display");
+    document.getElementById("game-start-wrapper").classList.add("no-display");
+    this.setState({
+      word: [],
+      guesses: [],
+      letterGuess: "",
+      wrongGuesses: 0,
+      winCondition: false,
+      lossCondition: false,
+    });
   };
 
   hangManPieces = [
@@ -137,50 +165,47 @@ class HangMan extends Component {
     for (let i = 0; i < this.state.wrongGuesses; i++) {
       renderedHangManPieces.push(this.hangManPieces[i]);
     }
+
     let singleWord = [];
     const hangPhrase = [];
     this.state.word.forEach((letter, index) => {
-        let letterClass = "";
-        if (/[ ]/.test(letter)) {
-          letter = "___";
-          letterClass = "hidden";
-        }
-        if (
-          /[A-Z]/.test(letter) &&
-          !this.state.guesses.includes(letter)
-        ) {
-          letterClass = "hidden";
-        }
-        if (/[_+'-]/.test(letter)) {
-          return hangPhrase.push(
-            <div className="hang-letter">
-              <div className={letterClass}>{letter}</div>
-            </div>
-          );
-        }
-        if (index === this.state.word.length-1 || this.state.word[index + 1] === " "){
-            singleWord.push(
-              <div className="hang-letter">
-                <div className={letterClass}>{letter}</div>
-                <div className="hang-piece letter-line"></div>
-              </div>
-            );
-            hangPhrase.push(
-                <div className='hang-word'>
-                    {singleWord}
-                </div>
-            )
-            singleWord = [];
-        }else{
-            singleWord.push(
-                <div className="hang-letter">
-                  <div className={letterClass}>{letter}</div>
-                  <div className="hang-piece letter-line"></div>
-                </div>
-              );
-        }
-      })
-      
+      let letterClass = "";
+      if (/[ ]/.test(letter)) {
+        letter = "___";
+        letterClass = "hidden";
+      }
+      if (/[A-Z]/.test(letter) && !this.state.guesses.includes(letter)) {
+        letterClass = "hidden";
+      }
+      if (/[_+'-]/.test(letter)) {
+        return hangPhrase.push(
+          <div className="hang-letter">
+            <div className={letterClass}>{letter}</div>
+          </div>
+        );
+      }
+      if (
+        index === this.state.word.length - 1 ||
+        this.state.word[index + 1] === " "
+      ) {
+        singleWord.push(
+          <div className="hang-letter">
+            <div className={letterClass}>{letter}</div>
+            <div className="hang-piece letter-line"></div>
+          </div>
+        );
+        hangPhrase.push(<div className="hang-word">{singleWord}</div>);
+        singleWord = [];
+      } else {
+        singleWord.push(
+          <div className="hang-letter">
+            <div className={letterClass}>{letter}</div>
+            <div className="hang-piece letter-line"></div>
+          </div>
+        );
+      }
+    });
+
     return (
       <div className="container">
         <div className="row title-row">
@@ -226,13 +251,11 @@ class HangMan extends Component {
                       }
                     })}
                   </div>
-                  <div id="word-section">
-                    {hangPhrase}
-                  </div>
+                  <div id="word-section">{hangPhrase}</div>
                 </div>
               </div>
               <div id="guess-section">
-                <form
+                {!this.state.winCondition && !this.state.lossCondition &&<form
                   id="guess-form"
                   onSubmit={(event) => this.handleGuess(event)}
                 >
@@ -253,7 +276,15 @@ class HangMan extends Component {
                   >
                     Guess
                   </button>
-                </form>
+                </form>}
+                {this.state.winCondition && <h2 className="hang-end-display">
+                  You win!{" "}
+                  <span className="play-again-switch" onClick = {() => this.resetBoard()}>Play Again?</span>
+                </h2>}
+                {this.state.lossCondition && <h2 className="hang-end-display">
+                  You lose!{" "}
+                <span className="play-again-switch" onClick = {() => this.resetBoard()}>Play Again?</span>
+                </h2>}
               </div>
             </div>
           </div>

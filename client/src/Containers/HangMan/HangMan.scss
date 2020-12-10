@@ -116,7 +116,6 @@
 
 #man-section{
     position: relative;
-    border: white solid 1px;
     height: 300px;
     width: 250px;
 }
@@ -147,4 +146,18 @@
     font-weight: bold;
     font-size: 2rem;
     letter-spacing: 1rem;
+    min-height: 48px;
+}
+.play-again-switch{
+    color: pink;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+        color: rgb(250, 150, 167);
+        cursor: pointer;
+    }
+}
+.hang-end-display{
+    color: white;
+    text-align: center;
 }
