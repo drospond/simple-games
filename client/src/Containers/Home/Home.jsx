@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Home.scss";
 import GameCard from "../../Components/GameCard/GameCard";
 import ticTacToeImage from "../../media/tic-tac-toe.PNG";
+import hangManIamage from "../../media/HangManSS.PNG";
 
 class Home extends Component {
   render() {
@@ -13,7 +14,7 @@ class Home extends Component {
         </div>
         <div className="row card-row">
           <GameCard link="/TicTacToe" img={ticTacToeImage} title="Tic-Tac-Toe"/>
-          <GameCard link="/HangMan" img={ticTacToeImage} title="Hang Man"/>
+          <GameCard link="/HangMan" img={hangManIamage} title="Hang Man"/>
         </div>
       </div>
     );
