@@ -114,16 +114,34 @@
     visibility: hidden;
 }
 
+//Hang man board
 #man-section{
     position: relative;
     height: 300px;
     width: 250px;
 }
-
+#right-board-wrapper{
+    padding-right: 70px;
+}
 #word-section{
-    position: relative;
     text-align: center;
 }
+.hang-error{
+    color: pink;
+    justify-content: center;
+    margin: auto;
+    margin-top: 20px;
+    max-width: 1000px;
+    text-align: center;
+}
+.guessed-letter-section{
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    min-height: 48px;
+}
+
 .hang-word{
     float: left;
     display: flex;
@@ -141,13 +159,7 @@
     width: 50px;
 }
 
-.guessed-letter-section{
-    color: white;
-    font-weight: bold;
-    font-size: 2rem;
-    letter-spacing: 1rem;
-    min-height: 48px;
-}
+
 .play-again-switch{
     color: pink;
     text-decoration: underline;

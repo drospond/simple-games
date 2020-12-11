@@ -70,7 +70,7 @@ class HangMan extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (/^(\w ?[,'-]?){4,64}$/.test(this.state.word.join(""))) {
+    if (/^([A-Z] ?[,'-]?){4,64}$/.test(this.state.word.join(""))) {
       document.getElementById("hang-man-form").className = "no-display";
       document
         .getElementById("game-start-wrapper")
@@ -109,7 +109,7 @@ class HangMan extends Component {
 
   handleGuess = (event) => {
     event.preventDefault();
-    if (!/[a-zA-z]{1}/.test(this.state.letterGuess)) {
+    if (!/[a-zA-Z]{1}/.test(this.state.letterGuess)) {
       document.getElementById("guess-form").reset();
       return this.setState({
         error: "Must guess a letter!",
@@ -218,6 +218,7 @@ class HangMan extends Component {
         <div className="row">
           <div id="hang-man-board" className="col">
             {this.props.playerNumber == 1 && (
+              <>
               <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
                 <h4 className="hang-man-question">Choose a word or phrase</h4>
                 <input
@@ -232,6 +233,9 @@ class HangMan extends Component {
                   Submit
                 </button>
               </form>
+              {this.state.error && 
+              <div className="row hang-error"><h4>{this.state.error}</h4></div>}}
+              </>
             )}
             <div id="game-start-wrapper" className="no-display">
               <div className="row">
@@ -244,48 +248,70 @@ class HangMan extends Component {
                     {renderedHangManPieces}
                   </div>
                 </div>
-                <div className="col-9">
-                  <div className="guessed-letter-section">
+                <div className="col-9" id="right-board-wrapper">
+                  <div className="row guessed-letter-section">
                     {this.state.guesses.map((letter) => {
                       if (!this.state.word.includes(letter)) {
                         return letter;
                       }
                     })}
                   </div>
-                  <div id="word-section">{hangPhrase}</div>
+                  <div id="word-section" className="row">
+                    {hangPhrase}
+                  </div>
                 </div>
               </div>
               <div id="guess-section">
-                {!this.state.winCondition && !this.state.lossCondition &&<form
-                  id="guess-form"
-                  onSubmit={(event) => this.handleGuess(event)}
-                >
-                  <h4 className="hang-man-question">Guess a Letter</h4>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="hangManLetterInput"
-                    name="letterGuess"
-                    maxLength="1"
-                    autoComplete="off"
-                    onChange={this.handleChangeLetter}
-                  />
-                  <button
-                    type="submit"
-                    id="submit-letter"
-                    class="btn btn-primary"
+                {!this.state.winCondition && !this.state.lossCondition && (
+                  <>
+                  <form
+                    id="guess-form"
+                    onSubmit={(event) => this.handleGuess(event)}
                   >
-                    Guess
-                  </button>
-                </form>}
-                {this.state.winCondition && <h2 className="hang-end-display">
-                  You win!{" "}
-                  <span className="play-again-switch" onClick = {() => this.resetBoard()}>Play Again?</span>
-                </h2>}
-                {this.state.lossCondition && <h2 className="hang-end-display">
-                  You lose!{" "}
-                <span className="play-again-switch" onClick = {() => this.resetBoard()}>Play Again?</span>
-                </h2>}
+                    <h4 className="hang-man-question">Guess a Letter</h4>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="hangManLetterInput"
+                      name="letterGuess"
+                      maxLength="1"
+                      autoComplete="off"
+                      onChange={this.handleChangeLetter}
+                    />
+                    <button
+                      type="submit"
+                      id="submit-letter"
+                      class="btn btn-primary"
+                    >
+                      Guess
+                    </button>
+                  </form>
+                  {this.state.error &&
+                    <div className="row hang-error"><h4>{this.state.error}</h4></div>}
+                    </>
+                )}
+                {this.state.winCondition && (
+                  <h2 className="hang-end-display">
+                    You win!{" "}
+                    <span
+                      className="play-again-switch"
+                      onClick={() => this.resetBoard()}
+                    >
+                      Play Again?
+                    </span>
+                  </h2>
+                )}
+                {this.state.lossCondition && (
+                  <h2 className="hang-end-display">
+                    You lose!{" "}
+                    <span
+                      className="play-again-switch"
+                      onClick={() => this.resetBoard()}
+                    >
+                      Play Again?
+                    </span>
+                  </h2>
+                )}
               </div>
             </div>
           </div>
