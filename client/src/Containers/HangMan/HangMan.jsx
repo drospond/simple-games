@@ -149,6 +149,7 @@ class HangMan extends Component {
       winCondition: false,
       lossCondition: false,
     });
+    document.getElementById("hang-man-form").reset();
   };
 
   hangManPieces = [
