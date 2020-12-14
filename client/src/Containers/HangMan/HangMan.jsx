@@ -167,23 +167,34 @@ class HangMan extends Component {
       renderedHangManPieces.push(this.hangManPieces[i]);
     }
 
+    //gotta clean this stuff up...
     let singleWord = [];
     const hangPhrase = [];
     this.state.word.forEach((letter, index) => {
       let letterClass = "";
       if (/[ ]/.test(letter)) {
-        letter = "___";
         letterClass = "hidden";
+        return hangPhrase.push(
+          <div className="hang-letter">
+            <div className={letterClass}>{"___"}</div>
+          </div>
+        );
       }
       if (/[A-Z]/.test(letter) && !this.state.guesses.includes(letter)) {
         letterClass = "hidden";
       }
-      if (/[_+'-]/.test(letter)) {
-        return hangPhrase.push(
+      if (/['\-,]/.test(letter)) {
+        singleWord.push(
           <div className="hang-letter">
             <div className={letterClass}>{letter}</div>
           </div>
         );
+        if(/[,]/.test(letter)){
+          hangPhrase.push(<div className="hang-word">{singleWord}</div>);
+          singleWord = [];
+          return;
+        }
+        return;
       }
       if (
         index === this.state.word.length - 1 ||
