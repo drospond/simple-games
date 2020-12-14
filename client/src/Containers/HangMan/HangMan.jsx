@@ -70,7 +70,7 @@ class HangMan extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (/^([A-Z] ?[,'-]?){4,64}$/.test(this.state.word.join(""))) {
+    if (/^([A-Z][,'-]? ?){4,64}$/.test(this.state.word.join(""))) {
       document.getElementById("hang-man-form").className = "no-display";
       document
         .getElementById("game-start-wrapper")
@@ -233,8 +233,8 @@ class HangMan extends Component {
                   Submit
                 </button>
               </form>
-              {this.state.error && 
-              <div className="row hang-error"><h4>{this.state.error}</h4></div>}}
+              {this.state.error && !this.state.letterGuess && 
+              <div className="row hang-error"><h4>{this.state.error}</h4></div>}
               </>
             )}
             <div id="game-start-wrapper" className="no-display">
@@ -285,9 +285,9 @@ class HangMan extends Component {
                     >
                       Guess
                     </button>
-                  </form>
-                  {this.state.error &&
+                    {this.state.error &&
                     <div className="row hang-error"><h4>{this.state.error}</h4></div>}
+                  </form>
                     </>
                 )}
                 {this.state.winCondition && (
@@ -327,3 +327,5 @@ class HangMan extends Component {
 export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
   HangMan
 );
+
+//todo both errors pop up; special chars rendering wrong; socket.io
