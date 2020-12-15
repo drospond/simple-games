@@ -40,11 +40,14 @@ class HangMan extends Component {
     }
 
     socket.on("set word", (data) =>{
-      console.log(`Setting word to ${data.word}`);
       this.setState({
         word: data.word,
         gameStart: true,
       })
+    })
+
+    socket.on("letter guess", (data) => {
+      this.handleGuess(data.letter);
     })
 
     // socket.on("board update", (data) => {
@@ -119,28 +122,27 @@ class HangMan extends Component {
     }
   };
 
-  handleGuess = (event) => {
-    event.preventDefault();
-    if (!/[a-zA-Z]{1}/.test(this.state.letterGuess)) {
+  handleGuess = (letter) => {
+    if (!/[a-zA-Z]{1}/.test(letter)) {
       document.getElementById("guess-form").reset();
       return this.setState({
         error: "Must guess a letter!",
       });
     }
-    if (this.state.guesses.includes(this.state.letterGuess)) {
+    if (this.state.guesses.includes(letter)) {
       document.getElementById("guess-form").reset();
       return this.setState({
         error: "Letter already guessed!",
       });
     }
-    if (!this.state.word.includes(this.state.letterGuess)) {
+    if (!this.state.word.includes(letter)) {
       this.setState({
         wrongGuesses: this.state.wrongGuesses + 1,
       });
     }
     this.setState(
       {
-        guesses: this.state.guesses.concat(this.state.letterGuess),
+        guesses: this.state.guesses.concat(letter),
       },
       () => {
         this.checkWin();
@@ -290,7 +292,14 @@ class HangMan extends Component {
                   <>
                   <form
                     id="guess-form"
-                    onSubmit={(event) => this.handleGuess(event)}
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      socket.emit("guess letter", {
+                        player: this.props.playerNumber,
+                        letter: this.state.letterGuess,
+                        room: this.props.roomCode
+                      });
+                    }}
                   >
                     <h4 className="hang-man-question">Guess a Letter</h4>
                     <input

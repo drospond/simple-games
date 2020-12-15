@@ -93,6 +93,11 @@ io.on("connection", (socket) => {
     console.log(`Setting word to ${data.word}`);
     io.to(data.room).emit("set word", data);
   })
+
+  socket.on('guess letter', (data) => {
+    console.log(`Guessing letter "${data.letter}"`);
+    io.to(data.room).emit("letter guess", data);
+  })
 });
 
 server.listen(PORT, () => {
