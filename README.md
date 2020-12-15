@@ -19,7 +19,8 @@ Simple games is a web application that contains a collection of some basic games
 ## Developement
 ### Future Features
 * Display players present in a room
-* Connect Four, Hangman and other great 'simple games'
+* Delve more into error handling for user/server communication interupts/ disconnects
+* Connect Four and other great 'simple games'
 * Much much more
 ### Bugs
 * Messages don't send from signed in users on Heroku deployed app
