@@ -145,11 +145,11 @@ class HangMan extends Component {
         guesses: this.state.guesses.concat(letter),
       },
       () => {
+        document.getElementById("guess-form").reset();
         this.checkWin();
         this.checkLoss();
       }
     );
-    document.getElementById("guess-form").reset();
   };
 
   resetBoard = () => {
