@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./HangMan.scss";
 import Axios from "axios";
+import {arrayEquals} from "../../utils/util.js"
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -23,6 +24,8 @@ class HangMan extends Component {
     wrongGuesses: 0,
     winCondition: false,
     lossCondition: false,
+    leadPlayerNumber: 1,
+    gameStart: false,
   };
 
   componentDidMount() {
@@ -35,6 +38,14 @@ class HangMan extends Component {
       this.props.joinRoom(room);
       socket.emit("join", room);
     }
+
+    socket.on("set word", (data) =>{
+      console.log(`Setting word to ${data.word}`);
+      this.setState({
+        word: data.word,
+        gameStart: true,
+      })
+    })
 
     // socket.on("board update", (data) => {
     //   console.log('board update: ', data);
@@ -71,10 +82,11 @@ class HangMan extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (/^([A-Z][,'-]? ?){4,64}$/.test(this.state.word.join(""))) {
-      document.getElementById("hang-man-form").className = "no-display";
-      document
-        .getElementById("game-start-wrapper")
-        .classList.remove("no-display");
+      socket.emit("set word", {
+        player: this.props.playerNumber,
+        word: this.state.word,
+        room: this.props.roomCode
+      });
     } else {
       this.setState({
         error:
@@ -140,7 +152,6 @@ class HangMan extends Component {
 
   resetBoard = () => {
     document.getElementById("hang-man-form").classList.remove("no-display");
-    document.getElementById("game-start-wrapper").classList.add("no-display");
     this.setState({
       word: [],
       guesses: [],
@@ -148,6 +159,7 @@ class HangMan extends Component {
       wrongGuesses: 0,
       winCondition: false,
       lossCondition: false,
+      gameStart: false
     });
     document.getElementById("hang-man-form").reset();
   };
@@ -228,7 +240,7 @@ class HangMan extends Component {
         </div>
         <div className="row">
           <div id="hang-man-board" className="col">
-            {this.props.playerNumber == 1 && (
+            {this.props.playerNumber == this.state.leadPlayerNumber && !this.state.gameStart && (
               <>
               <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
                 <h4 className="hang-man-question">Choose a word or phrase</h4>
@@ -248,7 +260,8 @@ class HangMan extends Component {
               <div className="row hang-error"><h4>{this.state.error}</h4></div>}
               </>
             )}
-            <div id="game-start-wrapper" className="no-display">
+            {this.state.gameStart && 
+            <div id="game-start-wrapper">
               <div className="row">
                 <div className="col">
                   <div id="man-section">
@@ -324,7 +337,7 @@ class HangMan extends Component {
                   </h2>
                 )}
               </div>
-            </div>
+            </div>}
           </div>
         </div>
         <div className="row">
@@ -339,4 +352,4 @@ export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
   HangMan
 );
 
-//todo both errors pop up; special chars rendering wrong; socket.io
+//todo socket.io

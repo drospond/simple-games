@@ -88,6 +88,11 @@ io.on("connection", (socket) => {
   socket.on('play again', (data) => {
     io.to(data.room).emit("reset board");
   })
+
+  socket.on('set word', (data) => {
+    console.log(`Setting word to ${data.word}`);
+    io.to(data.room).emit("set word", data);
+  })
 });
 
 server.listen(PORT, () => {
