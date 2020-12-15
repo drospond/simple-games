@@ -25,6 +25,7 @@ class HangMan extends Component {
     winCondition: false,
     lossCondition: false,
     leadPlayerNumber: 1,
+    guessingPlayerNumber: 2,
     gameStart: false,
   };
 
@@ -153,7 +154,6 @@ class HangMan extends Component {
   };
 
   resetBoard = () => {
-    document.getElementById("hang-man-form").classList.remove("no-display");
     this.setState({
       word: [],
       guesses: [],
@@ -162,8 +162,11 @@ class HangMan extends Component {
       winCondition: false,
       lossCondition: false,
       gameStart: false
+    }, () => {
+      if(document.getElementById("hang-man-form")){
+        document.getElementById("hang-man-form").reset();
+      }
     });
-    document.getElementById("hang-man-form").reset();
   };
 
   hangManPieces = [
@@ -288,7 +291,7 @@ class HangMan extends Component {
                 </div>
               </div>
               <div id="guess-section">
-                {!this.state.winCondition && !this.state.lossCondition && (
+                {!this.state.winCondition && !this.state.lossCondition && this.state.guessingPlayerNumber == this.props.playerNumber && (
                   <>
                   <form
                     id="guess-form"
