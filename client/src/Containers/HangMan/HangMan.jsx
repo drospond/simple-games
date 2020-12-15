@@ -23,6 +23,9 @@ class HangMan extends Component {
     wrongGuesses: 0,
     winCondition: false,
     lossCondition: false,
+    leadPlayerNumber: 1,
+    guessingPlayerNumber: 2,
+    gameStart: false,
   };
 
   componentDidMount() {
@@ -36,20 +39,20 @@ class HangMan extends Component {
       socket.emit("join", room);
     }
 
-    // socket.on("board update", (data) => {
-    //   console.log('board update: ', data);
-    //   this.setState({ board: data.board });
-    //   this.checkWinner(data.player);
-    //   if (data.player === "1") {
-    //     this.setState({ playerTurn: 2 });
-    //   } else {
-    //     this.setState({ playerTurn: 1 });
-    //   }
-    // });
+    socket.on("set word", (data) =>{
+      this.setState({
+        word: data.word,
+        gameStart: true,
+      })
+    })
 
-    // socket.on("reset board", () => {
+    socket.on("letter guess", (data) => {
+      this.handleGuess(data.letter);
+    })
 
-    // });
+    socket.on("hang man reset", () => {
+      this.resetBoard();
+    })
   }
 
   handleChangeWord = (event) => {
@@ -71,10 +74,11 @@ class HangMan extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (/^([A-Z][,'-]? ?){4,64}$/.test(this.state.word.join(""))) {
-      document.getElementById("hang-man-form").className = "no-display";
-      document
-        .getElementById("game-start-wrapper")
-        .classList.remove("no-display");
+      socket.emit("set word", {
+        player: this.props.playerNumber,
+        word: this.state.word,
+        room: this.props.roomCode
+      });
     } else {
       this.setState({
         error:
@@ -102,45 +106,48 @@ class HangMan extends Component {
       this.setState({
         lossCondition: true,
       });
-      document.getElementById("guess-form").className = "no-display";
-      //   document.getElementById('guess-form').className = 'no-display';
     }
   };
 
-  handleGuess = (event) => {
-    event.preventDefault();
-    if (!/[a-zA-Z]{1}/.test(this.state.letterGuess)) {
-      document.getElementById("guess-form").reset();
+  handleGuess = (letter) => {
+    if (!/[a-zA-Z]{1}/.test(letter)) {
+      if(document.getElementById("guess-form")){
+        document.getElementById("guess-form").reset();
+      }
       return this.setState({
         error: "Must guess a letter!",
       });
     }
-    if (this.state.guesses.includes(this.state.letterGuess)) {
-      document.getElementById("guess-form").reset();
+    if (this.state.guesses.includes(letter)) {
+      if(document.getElementById("guess-form")){
+        document.getElementById("guess-form").reset();
+      }
       return this.setState({
         error: "Letter already guessed!",
       });
     }
-    if (!this.state.word.includes(this.state.letterGuess)) {
+    if (!this.state.word.includes(letter)) {
       this.setState({
         wrongGuesses: this.state.wrongGuesses + 1,
       });
     }
     this.setState(
       {
-        guesses: this.state.guesses.concat(this.state.letterGuess),
+        guesses: this.state.guesses.concat(letter),
       },
       () => {
+        if (document.getElementById("guess-form")){
+          document.getElementById("guess-form").reset();
+        }
         this.checkWin();
         this.checkLoss();
       }
     );
-    document.getElementById("guess-form").reset();
   };
 
   resetBoard = () => {
-    document.getElementById("hang-man-form").classList.remove("no-display");
-    document.getElementById("game-start-wrapper").classList.add("no-display");
+    const newLead = this.state.guessingPlayerNumber;
+    const newGuesser = this.state.leadPlayerNumber;
     this.setState({
       word: [],
       guesses: [],
@@ -148,9 +155,22 @@ class HangMan extends Component {
       wrongGuesses: 0,
       winCondition: false,
       lossCondition: false,
+      gameStart: false,
+      leadPlayerNumber: newLead,
+      guessingPlayerNumber: newGuesser,
+    }, () => {
+      if(document.getElementById("hang-man-form")){
+        document.getElementById("hang-man-form").reset();
+      }
     });
-    document.getElementById("hang-man-form").reset();
   };
+
+  emitBoardResest = () => {
+    socket.emit("hang man reset", {
+      player: this.props.playerNumber,
+      room: this.props.roomCode
+    })
+  }
 
   hangManPieces = [
     <div className="hang-head"></div>,
@@ -228,7 +248,7 @@ class HangMan extends Component {
         </div>
         <div className="row">
           <div id="hang-man-board" className="col">
-            {this.props.playerNumber == 1 && (
+            {this.props.playerNumber == this.state.leadPlayerNumber && !this.state.gameStart && (
               <>
               <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
                 <h4 className="hang-man-question">Choose a word or phrase</h4>
@@ -248,7 +268,8 @@ class HangMan extends Component {
               <div className="row hang-error"><h4>{this.state.error}</h4></div>}
               </>
             )}
-            <div id="game-start-wrapper" className="no-display">
+            {this.state.gameStart && 
+            <div id="game-start-wrapper">
               <div className="row">
                 <div className="col">
                   <div id="man-section">
@@ -273,11 +294,18 @@ class HangMan extends Component {
                 </div>
               </div>
               <div id="guess-section">
-                {!this.state.winCondition && !this.state.lossCondition && (
+                {!this.state.winCondition && !this.state.lossCondition && this.state.guessingPlayerNumber == this.props.playerNumber && (
                   <>
                   <form
                     id="guess-form"
-                    onSubmit={(event) => this.handleGuess(event)}
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      socket.emit("guess letter", {
+                        player: this.props.playerNumber,
+                        letter: this.state.letterGuess,
+                        room: this.props.roomCode
+                      });
+                    }}
                   >
                     <h4 className="hang-man-question">Guess a Letter</h4>
                     <input
@@ -303,10 +331,10 @@ class HangMan extends Component {
                 )}
                 {this.state.winCondition && (
                   <h2 className="hang-end-display">
-                    You win!{" "}
+                    Saved from hanging!{" "}
                     <span
                       className="play-again-switch"
-                      onClick={() => this.resetBoard()}
+                      onClick={() => {this.emitBoardResest()}}
                     >
                       Play Again?
                     </span>
@@ -314,17 +342,17 @@ class HangMan extends Component {
                 )}
                 {this.state.lossCondition && (
                   <h2 className="hang-end-display">
-                    You lose!{" "}
+                    The poor man has been hanged!{" "}
                     <span
                       className="play-again-switch"
-                      onClick={() => this.resetBoard()}
+                      onClick={() => this.emitBoardResest()}
                     >
                       Play Again?
                     </span>
                   </h2>
                 )}
               </div>
-            </div>
+            </div>}
           </div>
         </div>
         <div className="row">
@@ -339,4 +367,4 @@ export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
   HangMan
 );
 
-//todo both errors pop up; special chars rendering wrong; socket.io
+//todo socket.io
