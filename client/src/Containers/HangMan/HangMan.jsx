@@ -106,20 +106,22 @@ class HangMan extends Component {
       this.setState({
         lossCondition: true,
       });
-      document.getElementById("guess-form").className = "no-display";
-      //   document.getElementById('guess-form').className = 'no-display';
     }
   };
 
   handleGuess = (letter) => {
     if (!/[a-zA-Z]{1}/.test(letter)) {
-      document.getElementById("guess-form").reset();
+      if(document.getElementById("guess-form")){
+        document.getElementById("guess-form").reset();
+      }
       return this.setState({
         error: "Must guess a letter!",
       });
     }
     if (this.state.guesses.includes(letter)) {
-      document.getElementById("guess-form").reset();
+      if(document.getElementById("guess-form")){
+        document.getElementById("guess-form").reset();
+      }
       return this.setState({
         error: "Letter already guessed!",
       });
@@ -329,7 +331,7 @@ class HangMan extends Component {
                 )}
                 {this.state.winCondition && (
                   <h2 className="hang-end-display">
-                    You win!{" "}
+                    Saved from hanging!{" "}
                     <span
                       className="play-again-switch"
                       onClick={() => {this.emitBoardResest()}}
@@ -340,7 +342,7 @@ class HangMan extends Component {
                 )}
                 {this.state.lossCondition && (
                   <h2 className="hang-end-display">
-                    You lose!{" "}
+                    The poor man has been hanged!{" "}
                     <span
                       className="play-again-switch"
                       onClick={() => this.emitBoardResest()}
