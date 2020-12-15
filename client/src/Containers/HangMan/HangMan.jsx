@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./HangMan.scss";
 import Axios from "axios";
-import {arrayEquals} from "../../utils/util.js"
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -145,6 +144,8 @@ class HangMan extends Component {
   };
 
   resetBoard = () => {
+    const newLead = this.state.guessingPlayerNumber;
+    const newGuesser = this.state.leadPlayerNumber;
     this.setState({
       word: [],
       guesses: [],
@@ -152,7 +153,9 @@ class HangMan extends Component {
       wrongGuesses: 0,
       winCondition: false,
       lossCondition: false,
-      gameStart: false
+      gameStart: false,
+      leadPlayerNumber: newLead,
+      guessingPlayerNumber: newGuesser,
     }, () => {
       if(document.getElementById("hang-man-form")){
         document.getElementById("hang-man-form").reset();
