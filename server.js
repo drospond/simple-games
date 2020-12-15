@@ -98,6 +98,11 @@ io.on("connection", (socket) => {
     console.log(`Guessing letter "${data.letter}"`);
     io.to(data.room).emit("letter guess", data);
   })
+
+  socket.on('hang man reset', (data) => {
+    console.log(`Resetting board for room ${data.room}`);
+    io.to(data.room).emit("hang man reset", data);
+  })
 });
 
 server.listen(PORT, () => {

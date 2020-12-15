@@ -51,20 +51,9 @@ class HangMan extends Component {
       this.handleGuess(data.letter);
     })
 
-    // socket.on("board update", (data) => {
-    //   console.log('board update: ', data);
-    //   this.setState({ board: data.board });
-    //   this.checkWinner(data.player);
-    //   if (data.player === "1") {
-    //     this.setState({ playerTurn: 2 });
-    //   } else {
-    //     this.setState({ playerTurn: 1 });
-    //   }
-    // });
-
-    // socket.on("reset board", () => {
-
-    // });
+    socket.on("hang man reset", () => {
+      this.resetBoard();
+    })
   }
 
   handleChangeWord = (event) => {
@@ -146,7 +135,9 @@ class HangMan extends Component {
         guesses: this.state.guesses.concat(letter),
       },
       () => {
-        document.getElementById("guess-form").reset();
+        if (document.getElementById("guess-form")){
+          document.getElementById("guess-form").reset();
+        }
         this.checkWin();
         this.checkLoss();
       }
@@ -168,6 +159,13 @@ class HangMan extends Component {
       }
     });
   };
+
+  emitBoardResest = () => {
+    socket.emit("hang man reset", {
+      player: this.props.playerNumber,
+      room: this.props.roomCode
+    })
+  }
 
   hangManPieces = [
     <div className="hang-head"></div>,
@@ -331,7 +329,7 @@ class HangMan extends Component {
                     You win!{" "}
                     <span
                       className="play-again-switch"
-                      onClick={() => this.resetBoard()}
+                      onClick={() => {this.emitBoardResest()}}
                     >
                       Play Again?
                     </span>
@@ -342,7 +340,7 @@ class HangMan extends Component {
                     You lose!{" "}
                     <span
                       className="play-again-switch"
-                      onClick={() => this.resetBoard()}
+                      onClick={() => this.emitBoardResest()}
                     >
                       Play Again?
                     </span>
