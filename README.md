@@ -24,7 +24,7 @@ Simple games is a web application that contains a collection of some basic games
 * Much much more
 ### Bugs
 * Messages don't send from signed in users on Heroku deployed app
-* Bugs in joining rooms (refresh needed to join rooms; second player assigned player number 'error')
+* Bugs in joining rooms (second player assigned player number 'error')
 
 ## Links
 Deployed at:  https://simple-games8723.herokuapp.com/

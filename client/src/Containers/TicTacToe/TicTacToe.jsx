@@ -22,6 +22,8 @@ class TicTacToe extends Component {
   };
   
   componentDidMount() {
+    socket.emit('join', this.props.roomCode);
+    
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
     if (playerNumber) {
