@@ -51,10 +51,14 @@ io.on("connection", (socket) => {
     io.to(data.room).emit("chat message", { msg: data.msg, user: data.user });
   });
 
-  socket.on("join", (room) => {
+  socket.on("clear rooms", (assignedRoom) => {
     Object.keys(socket.rooms).forEach((room) => {
       socket.leave(room);
     });
+    socket.emit("trigger join", assignedRoom);
+  })
+
+  socket.on("join", (room) => {
     socket.join(room);
     console.log("user joined " + room);
     if (socket.adapter.rooms[room]) {
@@ -64,7 +68,8 @@ io.on("connection", (socket) => {
 
   socket.on("requestRoom", () => {
     console.log("requesting room");
-    let roomCode = Math.random().toString(36).substring(8);
+    const randString = Math.random().toString(36);
+    let roomCode = randString.substring(randString.length - 4);
     roomArray.push(roomCode);
     socket.emit("assignRoom", roomCode);
   });
