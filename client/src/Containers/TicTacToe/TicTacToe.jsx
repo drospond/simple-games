@@ -101,7 +101,11 @@ class TicTacToe extends Component {
       if(this.props.signInState.user && player === this.props.playerNumber){
         this.updateWins();
       }
-      
+    } else if (!this.state.board.some(row => row.includes(0))){
+      this.setState({
+        catsGame: true,
+        winner: 3,
+      })
     }
   }
 
@@ -192,7 +196,8 @@ class TicTacToe extends Component {
         {this.state.winner && (
           <div className="row">
             <h4 id="winner-notification">
-              Player {this.state.winner} wins!
+              {this.state.winner !== 3 && <>Player {this.state.winner} wins!</>}
+              {this.state.winner === 3 && <>Cat's Game!</>}
               <span id="play-again-switch" onClick={() => this.playAgain()}>
                 {" "}
                 Play again?
