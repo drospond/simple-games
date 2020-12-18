@@ -73,9 +73,8 @@ io.on("connection", (socket) => {
     console.log("joing existing room", room);
     const roomExists = roomArray.includes(room);
     let playerNumber;
-    console.log("expected output: ",socket.adapter.rooms[room]);
     if(socket.adapter.rooms[room]){
-      playerNumber = `${socket.adapter.rooms[room].length + 1}`;
+      playerNumber = socket.adapter.rooms[room].length;
       }else{
         playerNumber = "error";
       }
