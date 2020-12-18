@@ -1,5 +1,5 @@
 const io = require("socket.io-client");
-const ENDPOINT = "http://localhost:3001/";
+const ENDPOINT = "/";
 
 const socket = io(ENDPOINT);
 

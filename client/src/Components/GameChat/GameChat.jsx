@@ -8,17 +8,17 @@ const GameChat = (props) => {
   const [messageArray, setMessageArray] = useState([]);
   const ref = useRef(messageArray);
   const room = useSelector((state) => state.roomCode);
+  const user = useSelector(state => state.signInState.user);
+  const playerNumber = useSelector(state => state.playerNumber);
 
   useEffect(() => {
     ref.current = messageArray;
   }, [messageArray]);
 
   useEffect(() => {
-    props.socket.on("chat message", function (msg) {
-    //   let newMessageArray = messageArray;
+    props.socket.on("chat message", function (data) {
       const newMessageArray = ref.current;
-        console.log(msg);
-      setMessageArray(newMessageArray.concat(msg));
+      setMessageArray(newMessageArray.concat(data));
     });
   }, []);
 
@@ -29,11 +29,18 @@ const GameChat = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let fromUser;
+    if(user){
+      fromUser = user.userObject.userName;
+    }else{
+      fromUser = `Player ${playerNumber}`
+    }
     props.socket.emit("chat message", {
       msg: message,
       room: room,
+      user: fromUser
     });
-    document.getElementById("chat-box").value = "";
+    document.getElementById("message-input").value = "";
     setMessage("");
   };
 
@@ -47,19 +54,23 @@ const GameChat = (props) => {
   }, [messageArray]);
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
+    <form id="chat-form" onSubmit={(event) => handleSubmit(event)}>
       <div className="form-group">
-        <label htmlFor="chat-box">Messages:</label>
+        <label htmlFor="message-input">Messages:</label>
         <div id="sent-messages">
           {messageArray.map((message) => {
-            return <p>{message}</p>;
+            if(user && message.user === user.userObject.userName || message.user === `Player ${playerNumber}`){
+              return <div className="chat-block"><p className="current-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+            }else{
+              return <div className="chat-block"><p className="other-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+            }
           })}
         </div>
         <input
           className="form-control"
           autoComplete="off"
           type="text"
-          id="chat-box"
+          id="message-input"
           rows="3"
           onChange={(event) => handleInputChange(event)}
         ></input>

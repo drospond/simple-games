@@ -6,6 +6,7 @@
 #tic-tac-toe-board{
     position: relative;
     margin: auto;
+    padding-top: 2%;
     height: 500px;
     width: 500px;
     display: grid;
@@ -13,15 +14,16 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
-.win-line{
+#win-line{
     position: absolute;
     background-color: white;
     border-radius: 10px;
     height: 5px;
     width: 500px;
+    visibility: hidden;
 }
 .win0{
-    top: 75px;
+    top: 100px;
 }
 .win1{
     top: 250px;
@@ -45,17 +47,28 @@
 }
 .win6{
     left: -100px;
-    width: 700px;
+    width: 700px !important;
     top: 250px;
     transform: rotate(45deg);
 }
 .win7{
     left: -100px;
-    width: 700px;
+    width: 700px !important;
     top: 250px;
     transform: rotate(-45deg);
 }
-
+.visible{
+    visibility: visible !important;
+}
+#play-again-switch{
+    color: pink;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+        color: rgb(250, 150, 167);
+        cursor: pointer;
+    }
+}
 
 .tic-tac-toe-square{
     position: relative;

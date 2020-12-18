@@ -1,0 +1,175 @@
+#hang-man-board{
+    margin: auto;
+    width: 100%;
+    position: relative;
+}
+
+.hang-piece{
+    background-color: white;
+    border-radius: 10px;
+    height: 5px;
+    position: absolute;
+}
+
+.hang-base{
+    width: 200px;
+    top:230px;
+}
+
+.hang-staff{
+    transform: rotate(90deg);
+    top: 133px;
+    width: 198px;
+    left: -23px;
+}
+
+.hang-reach{
+    width: 100px;
+    top: 35px;
+    left: 75px;
+}
+
+.hang-rope{
+    transform: rotate(90deg);
+    width: 25px;
+    top: 47px;
+    left: 160px;
+}
+
+.hang-head{
+    position: absolute;
+    border: 5px white solid;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    top: 57px;
+    left: 145px;
+}
+.hang-body{
+    transform: rotate(90deg);
+    width: 55px;
+    top: 136px;
+    left: 146px;
+}
+.hang-arm-l{
+    transform: rotate(45deg);
+    width: 35px;
+    top: 120px;
+    left: 144px;
+}
+.hang-arm-r{
+    transform: rotate(-45deg);
+    width: 35px;
+    top: 120px;
+    left: 168px;
+}
+.hang-leg-l{
+    transform: rotate(-45deg);
+    width: 35px;
+    top: 173px;
+    left: 144px;
+}
+.hang-leg-r{
+    transform: rotate(45deg);
+    width: 35px;
+    top: 173px;
+    left: 168px;
+}
+
+#hang-man-form{
+    margin-top: 60px;
+    text-align: center;
+}
+#guess-form{
+    text-align: center;
+}
+#hangManLetterInput{
+    max-width: 4rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: auto;
+}
+
+.hang-man-question{
+    color: white;
+}
+
+#hangManWordInput{
+    text-transform: uppercase;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+#submit-word, #submit-letter{
+    margin-top: 10px;
+}
+
+.no-display{
+    display: none;
+}
+.hidden{
+    visibility: hidden;
+}
+
+//Hang man board
+#man-section{
+    position: relative;
+    height: 300px;
+    width: 250px;
+}
+#right-board-wrapper{
+    padding-right: 70px;
+}
+#word-section{
+    text-align: center;
+}
+.hang-error{
+    color: pink;
+    justify-content: center;
+    margin: auto;
+    margin-top: 20px;
+    max-width: 1000px;
+    text-align: center;
+}
+.guessed-letter-section{
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    min-height: 48px;
+}
+
+.hang-word{
+    float: left;
+    display: flex;
+}
+.hang-letter{
+    float: left;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-right: 10px;
+}
+.letter-line{
+    position: relative;
+    margin-top: -5px;
+    width: 50px;
+}
+
+
+.play-again-switch{
+    color: pink;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+        color: rgb(250, 150, 167);
+        cursor: pointer;
+    }
+}
+.hang-end-display{
+    color: white;
+    text-align: center;
+}

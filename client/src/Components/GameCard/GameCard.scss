@@ -5,6 +5,7 @@
     background-color: $dark;
     border-color: white;
     @extend %blue-neon-border;
+    margin: 0 10px 0 10px;
 }
 
 .card-title{
@@ -14,4 +15,9 @@
 #room-code-input{
     margin-top: .5rem;
     margin-bottom: .5rem;
+}
+
+.card-img-top{
+    height: 262.2px;
+    border-bottom: white 1px solid;
 }

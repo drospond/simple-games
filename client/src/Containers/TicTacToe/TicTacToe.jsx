@@ -4,12 +4,12 @@ import { joinRoom, assignPlayerumber } from "../../Redux/actions";
 import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./TicTacToe.scss";
+import Axios from "axios";
 
 function mapStateToProps(state) {
-  const { roomCode, playerNumber } = state;
-  return { roomCode: roomCode, playerNumber: playerNumber };
+  const { roomCode, playerNumber, signInState } = state;
+  return { roomCode: roomCode, playerNumber: playerNumber, signInState: signInState };
 }
-
 class TicTacToe extends Component {
   state = {
     board: [
@@ -20,8 +20,10 @@ class TicTacToe extends Component {
     playerTurn: 1,
     winner: false,
   };
-
+  
   componentDidMount() {
+    socket.emit('join', this.props.roomCode);
+    
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
     if (playerNumber) {
@@ -33,6 +35,7 @@ class TicTacToe extends Component {
     }
 
     socket.on("board update", (data) => {
+      console.log('board update: ', data);
       this.setState({ board: data.board });
       this.checkWinner(data.player);
       if (data.player === "1") {
@@ -41,8 +44,24 @@ class TicTacToe extends Component {
         this.setState({ playerTurn: 1 });
       }
     });
+
+    socket.on("reset board", () => {
+      this.setState({
+        board: [
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+        ],
+        winner: false,
+      });
+      document.getElementById("win-line").className = "";
+    });
   }
   //Leave room on unmount
+  updateWins(){
+    Axios.get(`/api/users/updateWins/tictactoe/${this.props.signInState.user.userObject._id}`);
+    console.log(`Updating wins of player id: ${this.props.signInState.user.userObject._id}`);
+  }
 
   checkWinner(player) {
     const { board } = this.state;
@@ -55,7 +74,7 @@ class TicTacToe extends Component {
     }
     let diag1 = [];
     for (let i = 0; i < board.length; i++) {
-      diag1.push(board[i][board.length - i]);
+      diag1.push(board[i][board.length - 1 - i]);
     }
     const allEquals = (tile) => tile === player;
     let winCondition = false;
@@ -76,8 +95,44 @@ class TicTacToe extends Component {
     } else if (diag1.every(allEquals)) {
       winCondition = 7;
     }
-    if (winCondition) {
+    if (winCondition !== false) {
       this.setState({ winner: player });
+      this.drawWinLine(winCondition);
+      if(this.props.signInState.user && player === this.props.playerNumber){
+        this.updateWins();
+      }
+      
+    }
+  }
+
+  drawWinLine(winCondition) {
+    const winLine = document.getElementById("win-line");
+    winLine.classList.add("visible");
+    switch (winCondition) {
+      case 0:
+        winLine.classList.add("win0");
+        break;
+      case 1:
+        winLine.classList.add("win1");
+        break;
+      case 2:
+        winLine.classList.add("win2");
+        break;
+      case 3:
+        winLine.classList.add("win3");
+        break;
+      case 4:
+        winLine.classList.add("win4");
+        break;
+      case 5:
+        winLine.classList.add("win5");
+        break;
+      case 6:
+        winLine.classList.add("win6");
+        break;
+      case 7:
+        winLine.classList.add("win7");
+        break;
     }
   }
 
@@ -95,6 +150,7 @@ class TicTacToe extends Component {
         socket.emit("player move", {
           player: this.props.playerNumber,
           board: updatedBoard,
+          room: this.props.roomCode
         });
         this.setState({ board: updatedBoard });
         if (this.state.playerTurn === 1) {
@@ -106,6 +162,10 @@ class TicTacToe extends Component {
     }
   }
 
+  playAgain() {
+    socket.emit("play again", { room: this.props.roomCode });
+  }
+
   render() {
     return (
       <div className="container">
@@ -115,15 +175,34 @@ class TicTacToe extends Component {
         <div className="row">
           <h4 id="room-code">Room: {this.props.roomCode}</h4>
         </div>
+        {Number(this.state.playerTurn) === Number(this.props.playerNumber) && !this.state.winner && (
+          <div className="row">
+            <h4 id="winner-notification">
+              Your turn
+            </h4>
+          </div>
+        )}
+        {Number(this.state.playerTurn) !== Number(this.props.playerNumber) && !this.state.winner && (
+          <div className="row">
+            <h4 id="winner-notification">
+              Their turn
+            </h4>
+          </div>
+        )}
         {this.state.winner && (
           <div className="row">
-            <h4 id="winner-notification">Player {this.state.winner} wins!</h4>
+            <h4 id="winner-notification">
+              Player {this.state.winner} wins!
+              <span id="play-again-switch" onClick={() => this.playAgain()}>
+                {" "}
+                Play again?
+              </span>
+            </h4>
           </div>
         )}
         <div className="row">
-          <GameChat socket={socket} />
           <div id="tic-tac-toe-board">
-            <div className="win-line"></div>
+            <div id="win-line" className="win-line"></div>
             {this.state.board.map((row, rowIndex) => {
               return row.map((tile, colIndex) => {
                 return (
@@ -146,6 +225,7 @@ class TicTacToe extends Component {
               });
             })}
           </div>
+          <GameChat socket={socket} />
         </div>
       </div>
     );
@@ -155,5 +235,3 @@ class TicTacToe extends Component {
 export default connect(mapStateToProps, { joinRoom, assignPlayerumber })(
   TicTacToe
 );
-
-//TODO: fix bugs with player leaving room after another joins. try storing playerNumber in session storage
