@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 import HangMan from "./Containers/HangMan/HangMan";
-import Dashboard from "./Containers/Dashboard";
+import Dashboard from "./Containers/Dashboard/Dashboard";
 
 function App() {
   return (
