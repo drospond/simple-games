@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 import HangMan from "./Containers/HangMan/HangMan";
+import Dashboard from "./Containers/Dashboard";
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
           exact
           path="/HangMan"
           render={(props) => <HangMan {...props} />}
+        />
+        <Route
+          exact
+          path="/Dashboard"
+          render={(props) => <Dashboard {...props} />}
         />
       </Switch>
     </BrowserRouter>
