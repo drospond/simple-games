@@ -59,9 +59,8 @@ const GameCard = (props) => {
           Start Game
         </Link>
         <input
-          id="room-code-input"
           type="text"
-          className="form-control"
+          className="form-control room-code-input"
           placeholder="Room Code"
           onChange={(event) => handleInputChange(event)}
         />
