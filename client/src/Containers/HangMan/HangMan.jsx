@@ -264,7 +264,7 @@ class HangMan extends Component {
                   autoComplete="off"
                   onChange={this.handleChangeWord}
                 />
-                <button type="submit" id="submit-word" class="btn btn-primary">
+                <button type="submit" id="submit-word" className="btn btn-primary">
                   Submit
                 </button>
               </form>
@@ -324,7 +324,7 @@ class HangMan extends Component {
                     <button
                       type="submit"
                       id="submit-letter"
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                     >
                       Guess
                     </button>
