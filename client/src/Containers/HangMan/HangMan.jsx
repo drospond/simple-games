@@ -101,6 +101,7 @@ class HangMan extends Component {
         winCondition: winCondition,
       });
     }
+    //update player wins
   };
 
   checkLoss = () => {
@@ -109,6 +110,7 @@ class HangMan extends Component {
         lossCondition: true,
       });
     }
+    //update player losses
   };
 
   handleGuess = (letter) => {
