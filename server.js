@@ -23,13 +23,14 @@ app.get("/api/config", (req, res) => {
 
 app.use(express.static("client/build"));
 
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/simpleGamesDB",
-  {
+mongoose.set('useUnifiedTopology', true);
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/simpleGamesDB", {
     useNewUrlParser: true,
     useFindAndModify: false,
-  }
-);
+  })
+  .catch((error) => handleError(error));
+
 const userController = require("./Controllers/userController");
 app.use("/api/users", userController);
 
@@ -56,7 +57,7 @@ io.on("connection", (socket) => {
       socket.leave(room);
     });
     socket.emit("trigger join", assignedRoom);
-  })
+  });
 
   socket.on("join", (room) => {
     socket.join(room);

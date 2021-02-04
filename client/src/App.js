@@ -12,6 +12,7 @@ import {
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 import HangMan from "./Containers/HangMan/HangMan";
 import Dashboard from "./Containers/Dashboard/Dashboard";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
 
 function App() {
   return (
@@ -37,10 +38,10 @@ function App() {
           path="/HangMan"
           render={(props) => <HangMan {...props} />}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/Dashboard"
-          render={(props) => <Dashboard {...props} />}
+          component={Dashboard}
         />
       </Switch>
     </BrowserRouter>

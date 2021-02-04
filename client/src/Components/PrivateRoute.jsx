@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 const PrivateRoute = ({component: Component, ...rest}) => {
     const isSignedIn = useSelector(state => state.signInState.isSignedIn)
     return (
-        <Route {...rest} render={props => (
+        <Route {...rest} render={props => 
+            (
             isSignedIn ?
                 <Component {...props} />
             : <Redirect to="/signin" />
