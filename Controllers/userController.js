@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 }
 
 router.get("/", authenticateToken, (req, res) => {
-  User.findOne({ _id: req.user.id }, "_id userName").then((user) => {
+  User.findOne({ _id: req.user.id }, "_id userName games dateCreated").then((user) => {
     res.json(user);
   });
 });

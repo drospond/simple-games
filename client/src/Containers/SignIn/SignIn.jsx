@@ -30,11 +30,7 @@ class SignIn extends Component {
     axios
       .get("/api/users", { headers: { authorization: `Bearer ${user}` } })
       .then((res) => {
-        const user = {
-          _id: res.data._id,
-          userName: res.data.userName
-        };
-        console.log("user: ", user);
+        const user = res.data;
         this.props.storeUser(user);
       });
   };
