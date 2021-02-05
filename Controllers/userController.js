@@ -87,10 +87,11 @@ router.post("/signin", (req, res) => {
 });
 
 router.get("/updateWins/:game/:user", (req, res)=>{
+  console.log("updating wins!!");
   const updateobject = {$inc:{}}
   updateobject.$inc[`games.${req.params.game}.wins`] = 1;
   User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
-    res.status(200)
+    res.json({status: "success"}).status(200);
   })
 })
 
@@ -98,7 +99,7 @@ router.get("/updateLosses/:game/:user", (req, res)=>{
   const updateobject = {$inc:{}}
   updateobject.$inc[`games.${req.params.game}.losses`] = 1;
   User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
-    res.status(200)
+    res.json({status: "success"}).status(200);
   })
 })
 
