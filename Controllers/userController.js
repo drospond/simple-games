@@ -94,4 +94,12 @@ router.get("/updateWins/:game/:user", (req, res)=>{
   })
 })
 
+router.get("/updateLosses/:game/:user", (req, res)=>{
+  const updateobject = {$inc:{}}
+  updateobject.$inc[`games.${req.params.game}.losses`] = 1;
+  User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
+    res.status(200)
+  })
+})
+
 module.exports = router;
