@@ -15,7 +15,7 @@ const userSchema = new Schema({
     type: String,
     required: "Password is required.",
   },
-  games:[{
+  games:{
     tictactoe:{
       title: {
         type: String,
@@ -44,7 +44,7 @@ const userSchema = new Schema({
         default: 0
       }
     }
-  }],
+  },
   dateCreated: {
     type: Date,
     default: Date.now
