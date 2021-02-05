@@ -40,14 +40,11 @@ class SignIn extends Component {
     axios
       .post("/api/users/signin", { userName, password })
       .then((res) => {
-        console.log(res);
         if (res.data.errors) {
-          console.log(res.data);
           return this.setState({ error: res.data.errors });
         }
         sessionStorage.setItem("jwt", res.data.accessToken);
         this.getUserObject();
-        console.log('props: ', this.props);
         this.handleSignIn();
         this.props.history.push("/");
       });
