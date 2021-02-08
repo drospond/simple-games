@@ -104,27 +104,27 @@ class HangMan extends Component {
       }
     });
     if (winCondition) {
+      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
+        this.updateLosses();
+      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
+        this.updateWins();
+      }
       this.setState({
         winCondition: winCondition,
       });
-      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
-        this.updateWins();
-      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
-        this.updateLosses();
-      }
     }
   };
 
   checkLoss = () => {
     if (this.state.wrongGuesses === 6) {
-      this.setState({
-        lossCondition: true,
-      });
       if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
         this.updateLosses();
       }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
-        this.updateLosses();
+        this.updateWins();
       }
+      this.setState({
+        lossCondition: true,
+      });
     }
   };
 
