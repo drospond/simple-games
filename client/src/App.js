@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 import HangMan from "./Containers/HangMan/HangMan";
+import Dashboard from "./Containers/Dashboard/Dashboard";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
 
 function App() {
   return (
@@ -35,6 +37,11 @@ function App() {
           exact
           path="/HangMan"
           render={(props) => <HangMan {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path="/Dashboard"
+          component={Dashboard}
         />
       </Switch>
     </BrowserRouter>

@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 }
 
 router.get("/", authenticateToken, (req, res) => {
-  User.findOne({ _id: req.user.id }, "_id userName").then((user) => {
+  User.findOne({ _id: req.user.id }, "_id userName games dateCreated totalGames").then((user) => {
     res.json(user);
   });
 });
@@ -90,7 +90,15 @@ router.get("/updateWins/:game/:user", (req, res)=>{
   const updateobject = {$inc:{}}
   updateobject.$inc[`games.${req.params.game}.wins`] = 1;
   User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
-    res.status(200)
+    res.json({status: "success"}).status(200);
+  })
+})
+
+router.get("/updateLosses/:game/:user", (req, res)=>{
+  const updateobject = {$inc:{}}
+  updateobject.$inc[`games.${req.params.game}.losses`] = 1;
+  User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
+    res.json({status: "success"}).status(200);
   })
 })
 

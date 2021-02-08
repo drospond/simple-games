@@ -21,10 +21,10 @@ Simple games is a web application that contains a collection of some basic games
 * Display players present in a room
 * Delve more into error handling for user/server communication interupts/ disconnects
 * Connect Four and other great 'simple games'
+* Player Dashboard
 * Much much more
 ### Bugs
 * Messages don't send from signed in users on Heroku deployed app
-* Bugs in joining rooms (second player assigned player number 'error')
 
 ## Links
 Deployed at:  https://simple-games8723.herokuapp.com/

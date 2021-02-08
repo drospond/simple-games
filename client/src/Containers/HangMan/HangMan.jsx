@@ -88,6 +88,13 @@ class HangMan extends Component {
       });
     }
   };
+  
+  updateWins(){
+    Axios.get(`/api/users/updateWins/hangMan/${this.props.signInState.user.userObject._id}`);
+  }
+  updateLosses(){
+    Axios.get(`/api/users/updateLosses/hangMan/${this.props.signInState.user.userObject._id}`);
+  }
 
   checkWin = () => {
     let winCondition = true;
@@ -97,6 +104,11 @@ class HangMan extends Component {
       }
     });
     if (winCondition) {
+      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
+        this.updateLosses();
+      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
+        this.updateWins();
+      }
       this.setState({
         winCondition: winCondition,
       });
@@ -105,6 +117,11 @@ class HangMan extends Component {
 
   checkLoss = () => {
     if (this.state.wrongGuesses === 6) {
+      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
+        this.updateLosses();
+      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
+        this.updateWins();
+      }
       this.setState({
         lossCondition: true,
       });
@@ -262,7 +279,7 @@ class HangMan extends Component {
                   autoComplete="off"
                   onChange={this.handleChangeWord}
                 />
-                <button type="submit" id="submit-word" class="btn btn-primary">
+                <button type="submit" id="submit-word" className="btn btn-primary">
                   Submit
                 </button>
               </form>
@@ -322,7 +339,7 @@ class HangMan extends Component {
                     <button
                       type="submit"
                       id="submit-letter"
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                     >
                       Guess
                     </button>
