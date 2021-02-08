@@ -9,9 +9,27 @@ function mapStateToProps(state) {
 }
 
 class Dashboard extends Component {
+  state = {
+    user: false,
+    error: false
+  }
+
+  componentDidMount(){
+    if (!sessionStorage.getItem("jwt")) return this.setState({error: true});
+    const userToken = sessionStorage.getItem("jwt");
+    axios
+      .get("/api/users", { headers: { authorization: `Bearer ${userToken}` } })
+      .then((res) => {
+        const user = res.data;
+        this.setState({
+          user: user
+        })
+      });
+  }
+
   getAccountAge(){
     const currentDate = new Date();
-    const createdDate = new Date(this.props.signInState.user.userObject.dateCreated);
+    const createdDate = new Date(this.state.user.dateCreated);
     const accountAge = currentDate - createdDate;
     return Math.ceil(accountAge / (1000 * 60 * 60 * 24));
   }
@@ -21,7 +39,7 @@ class Dashboard extends Component {
       <div className="container">
         <div className="row title-row">
           <h1 className="title">
-            {this.props.signInState.user.userObject.userName} Dashboard
+            {this.state.user && this.state.user.userName} Dashboard
           </h1>
         </div>
         <div className="row">
@@ -34,19 +52,19 @@ class Dashboard extends Component {
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(this.props.signInState.user.userObject.games).map(game=>{
+                {this.state.user && Object.keys(this.props.signInState.user.userObject.games).map(game=>{
                   return (
                     <tr>
-                      <td>{this.props.signInState.user.userObject.games[game].title}</td>
-                      <td>{this.props.signInState.user.userObject.games[game].wins}</td>
-                      <td>{this.props.signInState.user.userObject.games[game].losses}</td>
+                      <td>{this.state.user.games[game].title}</td>
+                      <td>{this.state.user.games[game].wins}</td>
+                      <td>{this.state.user.games[game].losses}</td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
           </div>
-          <h4 className="dashboard-data">Total Games: {this.props.signInState.user.userObject.totalGames}</h4>
+          <h4 className="dashboard-data">Total Games: {this.state.user && this.state.user.totalGames}</h4>
           <h4 className="dashboard-data">{`Account Age: ${this.getAccountAge()} days`}</h4>
       </div>
     );
