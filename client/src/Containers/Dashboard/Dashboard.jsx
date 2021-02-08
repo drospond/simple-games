@@ -10,11 +10,12 @@ function mapStateToProps(state) {
 
 class Dashboard extends Component {
   getAccountAge(){
-    
+    const currentDate = new Date();
+    const createdDate = new Date(this.props.signInState.user.userObject.dateCreated);
+    const accountAge = currentDate - createdDate;
+    return Math.ceil(accountAge / (1000 * 60 * 60 * 24));
   }
-  componentDidMount(){
-    console.log(this.props.signInState);
-  }
+
   render() {
     return (
       <div className="container">
@@ -42,17 +43,11 @@ class Dashboard extends Component {
                     </tr>
                   )
                 })}
-                <tr>
-                  <td>Total Games:</td>
-                  <td colSpan="2">{this.props.signInState.user.userObject.totalGames}</td>
-                </tr>
-                <tr>
-                  <td>Account Age:</td>
-                  <td colSpan="2">{this.getAccountAge()}</td>
-                </tr>
               </tbody>
             </table>
           </div>
+          <h4 className="dashboard-data">Total Games: {this.props.signInState.user.userObject.totalGames}</h4>
+          <h4 className="dashboard-data">{`Account Age: ${this.getAccountAge()} days`}</h4>
       </div>
     );
   }

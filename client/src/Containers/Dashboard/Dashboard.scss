@@ -1,5 +1,6 @@
-table{
+.table{
     color: white;
+    margin: 50px 0px 25px 0px;
 }
 
 th{
@@ -7,4 +8,8 @@ th{
 }
 td{
     color: white;
+}
+.dashboard-data{
+    color: white;
+    text-align: center;
 }
