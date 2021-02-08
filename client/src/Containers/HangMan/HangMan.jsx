@@ -88,6 +88,13 @@ class HangMan extends Component {
       });
     }
   };
+  
+  updateWins(){
+    Axios.get(`/api/users/updateWins/hangMan/${this.props.signInState.user.userObject._id}`);
+  }
+  updateLosses(){
+    Axios.get(`/api/users/updateLosses/hangMan/${this.props.signInState.user.userObject._id}`);
+  }
 
   checkWin = () => {
     let winCondition = true;
@@ -100,8 +107,12 @@ class HangMan extends Component {
       this.setState({
         winCondition: winCondition,
       });
+      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
+        this.updateWins();
+      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
+        this.updateLosses();
+      }
     }
-    //update player wins
   };
 
   checkLoss = () => {
@@ -109,8 +120,12 @@ class HangMan extends Component {
       this.setState({
         lossCondition: true,
       });
+      if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.guessingPlayerNumber)){
+        this.updateLosses();
+      }else if(this.props.signInState.user && Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber)){
+        this.updateLosses();
+      }
     }
-    //update player losses
   };
 
   handleGuess = (letter) => {
