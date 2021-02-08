@@ -9,6 +9,12 @@ function mapStateToProps(state) {
 }
 
 class Dashboard extends Component {
+  getAccountAge(){
+    
+  }
+  componentDidMount(){
+    console.log(this.props.signInState);
+  }
   render() {
     return (
       <div className="container">
@@ -36,6 +42,14 @@ class Dashboard extends Component {
                     </tr>
                   )
                 })}
+                <tr>
+                  <td>Total Games:</td>
+                  <td colSpan="2">{this.props.signInState.user.userObject.totalGames}</td>
+                </tr>
+                <tr>
+                  <td>Account Age:</td>
+                  <td colSpan="2">{this.getAccountAge()}</td>
+                </tr>
               </tbody>
             </table>
           </div>
