@@ -49,7 +49,26 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now
   }
+},
+{
+  toObject: {
+  virtuals: true
+  },
+  toJSON: {
+  virtuals: true 
+  }
 });
+
+userSchema.virtual('totalGames').get(function(){
+  let totalGames = 0;
+  const games = Object.keys(this.games);
+  games.splice(games.indexOf("$init"), 1);
+  games.forEach(game=>{
+    totalGames += this.games[game].wins + this.games[game].losses;
+    console.log("game: ", this.games[game]);
+  })
+  return totalGames;
+})
 
 userSchema.plugin(uniqueValidator);
 

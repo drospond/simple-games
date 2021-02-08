@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 }
 
 router.get("/", authenticateToken, (req, res) => {
-  User.findOne({ _id: req.user.id }, "_id userName games dateCreated").then((user) => {
+  User.findOne({ _id: req.user.id }, "_id userName games dateCreated totalGames").then((user) => {
     res.json(user);
   });
 });
@@ -87,7 +87,6 @@ router.post("/signin", (req, res) => {
 });
 
 router.get("/updateWins/:game/:user", (req, res)=>{
-  console.log("updating wins!!");
   const updateobject = {$inc:{}}
   updateobject.$inc[`games.${req.params.game}.wins`] = 1;
   User.findByIdAndUpdate(req.params.user, updateobject).then(()=>{
