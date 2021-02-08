@@ -60,7 +60,9 @@ class TicTacToe extends Component {
   //Leave room on unmount
   updateWins(){
     Axios.get(`/api/users/updateWins/tictactoe/${this.props.signInState.user.userObject._id}`);
-    console.log(`Updating wins of player id: ${this.props.signInState.user.userObject._id}`);
+  }
+  updateLosses(){
+    Axios.get(`/api/users/updateLosses/tictactoe/${this.props.signInState.user.userObject._id}`);
   }
 
   checkWinner(player) {
@@ -100,6 +102,8 @@ class TicTacToe extends Component {
       this.drawWinLine(winCondition);
       if(this.props.signInState.user && player === this.props.playerNumber){
         this.updateWins();
+      }else if(this.props.signInState.user && player !== this.props.playerNumber){
+        this.updateLosses();
       }
     } else if (!this.state.board.some(row => row.includes(0))){
       this.setState({
