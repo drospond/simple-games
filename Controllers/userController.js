@@ -50,7 +50,6 @@ router.post("/", async (req, res) => {
         err.errors = errorMessage;
         res.json(err).status(400);
       }
-      console.log(err.errors.userName.properties.message);
       res.json(err).status(400);
     });
 });

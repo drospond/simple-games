@@ -35,7 +35,6 @@ class TicTacToe extends Component {
     }
 
     socket.on("board update", (data) => {
-      console.log('board update: ', data);
       this.setState({ board: data.board });
       this.checkWinner(data.player);
       if (data.player === "1") {
