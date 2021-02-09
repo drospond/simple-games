@@ -305,6 +305,7 @@ class HangMan extends Component {
                       if (!this.state.word.includes(letter)) {
                         return letter;
                       }
+                      return "";
                     })}
                   </div>
                   <div id="word-section" className="row">
