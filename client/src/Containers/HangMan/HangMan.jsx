@@ -267,7 +267,7 @@ class HangMan extends Component {
         </div>
         <div className="row">
           <div id="hang-man-board" className="col">
-            {this.props.playerNumber == this.state.leadPlayerNumber && !this.state.gameStart && (
+            {Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber) && !this.state.gameStart && (
               <>
               <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
                 <h4 className="hang-man-question">Choose a word or phrase</h4>
@@ -313,7 +313,7 @@ class HangMan extends Component {
                 </div>
               </div>
               <div id="guess-section">
-                {!this.state.winCondition && !this.state.lossCondition && this.state.guessingPlayerNumber == this.props.playerNumber && (
+                {!this.state.winCondition && !this.state.lossCondition && Number(this.state.guessingPlayerNumber) === Number(this.props.playerNumber) && (
                   <>
                   <form
                     id="guess-form"

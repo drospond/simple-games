@@ -20,7 +20,7 @@ const GameChat = (props) => {
       const newMessageArray = ref.current;
       setMessageArray(newMessageArray.concat(data));
     });
-  }, []);
+  },[]);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
