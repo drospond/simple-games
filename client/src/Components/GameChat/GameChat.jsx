@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./GameChat.scss";
 import { useEffect, useRef } from "react";
+import nanoid from 'nanoid';
 
 const GameChat = (props) => {
   const [message, setMessage] = useState("");
@@ -36,6 +37,7 @@ const GameChat = (props) => {
       fromUser = `Player ${playerNumber}`
     }
     props.socket.emit("chat message", {
+      id: nanoid(),
       msg: message,
       room: room,
       user: fromUser
@@ -60,9 +62,9 @@ const GameChat = (props) => {
         <div id="sent-messages">
           {messageArray.map((message) => {
             if(user && message.user === user.userObject.userName || message.user === `Player ${playerNumber}`){
-              return <div className="chat-block"><p className="current-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+              return <div key={message.id} className="chat-block"><p className="current-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
             }else{
-              return <div className="chat-block"><p className="other-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+              return <div key={message.id} className="chat-block"><p className="other-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
             }
           })}
         </div>
