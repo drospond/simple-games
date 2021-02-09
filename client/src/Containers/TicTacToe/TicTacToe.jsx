@@ -141,6 +141,8 @@ class TicTacToe extends Component {
       case 7:
         winLine.classList.add("win7");
         break;
+      default:
+        document.getElementById("win-line").className = "";
     }
   }
 
