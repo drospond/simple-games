@@ -17,10 +17,14 @@ const GameChat = (props) => {
   }, [messageArray]);
 
   useEffect(() => {
+    let mount = true;
     props.socket.on("chat message", function (data) {
       const newMessageArray = ref.current;
+      if(mount){
       setMessageArray(newMessageArray.concat(data));
+      }
     });
+    return () => mount = false;
   },[]);
 
   const handleInputChange = (event) => {
