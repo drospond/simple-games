@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
 
   socket.on("chat message", (data) => {
     console.log(data);
-    io.to(data.room).emit("chat message", { msg: data.msg, user: data.user });
+    io.to(data.room).emit("chat message", { id: data.id, msg: data.msg, user: data.user });
   });
 
   socket.on("clear rooms", (assignedRoom) => {
@@ -62,13 +62,9 @@ io.on("connection", (socket) => {
   socket.on("join", (room) => {
     socket.join(room);
     console.log("user joined " + room);
-    if (socket.adapter.rooms[room]) {
-      console.log("players in room: ", socket.adapter.rooms[room].length);
-    }
   });
 
   socket.on("requestRoom", () => {
-    console.log("requesting room");
     const randString = Math.random().toString(36);
     let roomCode = randString.substring(randString.length - 4);
     roomArray.push(roomCode);
@@ -79,7 +75,6 @@ io.on("connection", (socket) => {
     console.log("joining existing room", room);
     const roomExists = roomArray.includes(room);
     let playerNumber;
-    console.log("Socket stuff: ", socket.adapter.rooms[room]);
     if (socket.adapter.rooms[room]) {
       playerNumber = `${socket.adapter.rooms[room].length + 1}`;
     } else {
@@ -97,17 +92,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("set word", (data) => {
-    console.log(`Setting word to ${data.word}`);
     io.to(data.room).emit("set word", data);
   });
 
   socket.on("guess letter", (data) => {
-    console.log(`Guessing letter "${data.letter}"`);
     io.to(data.room).emit("letter guess", data);
   });
 
   socket.on("hang man reset", (data) => {
-    console.log(`Resetting board for room ${data.room}`);
     io.to(data.room).emit("hang man reset", data);
   });
 });

@@ -65,7 +65,6 @@ userSchema.virtual('totalGames').get(function(){
   games.splice(games.indexOf("$init"), 1);
   games.forEach(game=>{
     totalGames += this.games[game].wins + this.games[game].losses;
-    console.log("game: ", this.games[game]);
   })
   return totalGames;
 })

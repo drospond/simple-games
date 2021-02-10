@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./GameChat.scss";
 import { useEffect, useRef } from "react";
+import nanoid from 'nanoid';
 
 const GameChat = (props) => {
   const [message, setMessage] = useState("");
@@ -16,11 +17,15 @@ const GameChat = (props) => {
   }, [messageArray]);
 
   useEffect(() => {
+    let mount = true;
     props.socket.on("chat message", function (data) {
       const newMessageArray = ref.current;
+      if(mount){
       setMessageArray(newMessageArray.concat(data));
+      }
     });
-  }, []);
+    return () => mount = false;
+  },[]);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -36,6 +41,7 @@ const GameChat = (props) => {
       fromUser = `Player ${playerNumber}`
     }
     props.socket.emit("chat message", {
+      id: nanoid(),
       msg: message,
       room: room,
       user: fromUser
@@ -60,9 +66,9 @@ const GameChat = (props) => {
         <div id="sent-messages">
           {messageArray.map((message) => {
             if(user && message.user === user.userObject.userName || message.user === `Player ${playerNumber}`){
-              return <div className="chat-block"><p className="current-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+              return <div key={message.id} className="chat-block"><p className="current-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
             }else{
-              return <div className="chat-block"><p className="other-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
+              return <div key={message.id} className="chat-block"><p className="other-username">{message.user + ":"}</p><p>{message.msg}</p></div>;
             }
           })}
         </div>

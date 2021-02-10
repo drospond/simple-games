@@ -35,7 +35,6 @@ class TicTacToe extends Component {
     }
 
     socket.on("board update", (data) => {
-      console.log('board update: ', data);
       this.setState({ board: data.board });
       this.checkWinner(data.player);
       if (data.player === "1") {
@@ -141,6 +140,8 @@ class TicTacToe extends Component {
       case 7:
         winLine.classList.add("win7");
         break;
+      default:
+        document.getElementById("win-line").className = "";
     }
   }
 
