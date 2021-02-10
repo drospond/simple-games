@@ -5,21 +5,27 @@ import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./TicTacToe.scss";
 import Axios from "axios";
+import TicTacToeBoard from "./Components/TicTacToeBoard";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
   return { roomCode: roomCode, playerNumber: playerNumber, signInState: signInState };
 }
 class TicTacToe extends Component {
-  state = {
-    board: [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ],
-    playerTurn: 1,
-    winner: false,
-  };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      board: [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ],
+      playerTurn: 1,
+      winner: false,
+    };
+    this.playerMove = this.playerMove.bind(this)
+  }
   
   componentDidMount() {
     socket.emit('join', this.props.roomCode);
@@ -211,30 +217,7 @@ class TicTacToe extends Component {
           </div>
         )}
         <div className="row">
-          <div id="tic-tac-toe-board">
-            <div id="win-line" className="win-line"></div>
-            {this.state.board.map((row, rowIndex) => {
-              return row.map((tile, colIndex) => {
-                return (
-                  <div
-                    className={`tic-tac-toe-square row${rowIndex} col${colIndex}`}
-                    row={`${rowIndex}`}
-                    col={`${colIndex}`}
-                    key={`${rowIndex}-${colIndex}`}
-                    onClick={(event) => this.playerMove(event)}
-                  >
-                    {tile === "1" && <div className="O-move"></div>}
-                    {tile === "2" && (
-                      <div className="X-move">
-                        <div className="X-1"></div>
-                        <div className="X-2"></div>
-                      </div>
-                    )}
-                  </div>
-                );
-              });
-            })}
-          </div>
+          <TicTacToeBoard board={this.state.board} playerMove={this.playerMove}/>
           <GameChat socket={socket} />
         </div>
       </div>
