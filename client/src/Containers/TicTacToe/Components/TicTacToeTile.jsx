@@ -1,4 +1,6 @@
 import React from "react";
+import OMark from "./OMark";
+import XMark from "./XMark";
 
 const TicTacToeTile = ({ tile, rowIndex, colIndex, playerMove }) => {
   return (
@@ -9,13 +11,8 @@ const TicTacToeTile = ({ tile, rowIndex, colIndex, playerMove }) => {
       key={`${rowIndex}-${colIndex}`}
       onClick={(event) => playerMove(event)}
     >
-      {tile === "1" && <div className="O-move"></div>}
-      {tile === "2" && (
-        <div className="X-move">
-          <div className="X-1"></div>
-          <div className="X-2"></div>
-        </div>
-      )}
+      {tile === "1" && <OMark/>}
+      {tile === "2" && <XMark/>}
     </div>
   );
 };
