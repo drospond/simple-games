@@ -8,7 +8,7 @@ const TicTacToeBoard = ({board, playerMove}) => {
             {board.map((row, rowIndex) => {
               return row.map((tile, colIndex) => {
                 return (
-                  <TicTacToeTile tile={tile} rowIndex={rowIndex} colIndex={colIndex} playerMove={playerMove}/>
+                  <TicTacToeTile key={rowIndex+colIndex} tile={tile} rowIndex={rowIndex} colIndex={colIndex} playerMove={playerMove}/>
                 );
               });
             })}
