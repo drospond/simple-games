@@ -16,14 +16,20 @@ Simple games is a web application that contains a collection of some basic games
 * Redux
 * <span>socket.</spann>io
 
+## Installation
+It's simple enough to get running in a local dev environment. The application uses MongoDB for user data. Make sure to install mongoDB locally. Once MongoDB is installed, just clone the repo and run the following in the root directory:
+```
+npm install
+npm run dev
+```
 ## Developement
 ### Future Features
 * Display players present in a room
 * Delve more into error handling for user/server communication interupts/ disconnects
 * Connect Four and other great 'simple games'
 * Much much more
-### Bugs
-* Messages don't send from signed in users on Heroku deployed app
+### Bugs and Issues
+* Reppetition issue with joining rooms
 
 ## Links
 Deployed at:  https://simple-games8723.herokuapp.com/
