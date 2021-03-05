@@ -3,13 +3,13 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const http = require("http");
-const setUpSocket = require('./socket.io/index.js');
+const socket = require('./socket.io/index.js');
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 const server = http.Server(app);
-setUpSocket(server);
+socket.setUpSocket(server);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

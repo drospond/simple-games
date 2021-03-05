@@ -73,4 +73,4 @@ function setUpSocket(server){
   });
 };
 
-export default setUpSocket;
+exports.setUpSocket = setUpSocket;
