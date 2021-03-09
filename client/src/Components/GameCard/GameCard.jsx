@@ -18,7 +18,7 @@ const GameCard = (props) => {
   const joinSocket = () => {
     dispatch(assignPlayerumber(1));
     sessionStorage.setItem("playerNumber", 1);
-    socket.emit("requestRoom");
+    socket.emit("join room");
   };
 
   const joinExistingSocket = () => {
