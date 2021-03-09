@@ -30,6 +30,7 @@ npm run dev
 * Much much more
 ### Bugs and Issues
 * Reppetition issue with joining rooms
+* Need to check for valid room code
 
 ## Links
 Deployed at:  https://simple-games8723.herokuapp.com/

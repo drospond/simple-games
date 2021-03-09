@@ -1,4 +1,5 @@
 const initialize = function(io, socket, roomArray){
+  socket.on("test trigger", ()=>socket.emit("test response"))
     socket.on("clear rooms", (assignedRoom) => {
         Object.keys(socket.rooms).forEach((room) => {
           socket.leave(room);
