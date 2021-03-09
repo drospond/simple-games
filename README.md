@@ -29,7 +29,7 @@ npm run dev
 * Connect Four and other great 'simple games'
 * Much much more
 ### Bugs and Issues
-* Reppetition issue with joining rooms
+* Hangman needs to be cleaned and refractored to make more maintainable 
 * Need to check for valid room code
 
 ## Links
