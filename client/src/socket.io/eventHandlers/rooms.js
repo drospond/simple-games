@@ -1,17 +1,18 @@
 import { joinRoom, assignPlayerumber } from "../../Redux/actions";
 
-const initializeRoomListeners = function (socket, dispatch) {
+const storeRoomInfo = (room, dispatch) => {
+  dispatch(joinRoom(room));
+  sessionStorage.setItem("room", room);
+};
 
+const initializeRoomListeners = function (socket, dispatch) {
   socket.on("assignRoom", (assignedRoom) => {
-    dispatch(joinRoom(assignedRoom));
-    sessionStorage.setItem("room", assignedRoom);
-    console.log("joined room: ", assignedRoom);
+    storeRoomInfo(assignedRoom, dispatch);
   });
 
   socket.on("join permission", ({ roomExists, room, playerNumber }) => {
     if (roomExists) {
-      dispatch(joinRoom(room));
-      sessionStorage.setItem("room", room);
+      storeRoomInfo(room, dispatch)
       dispatch(assignPlayerumber(playerNumber));
       sessionStorage.setItem("playerNumber", playerNumber);
       socket.emit("join room", room);
