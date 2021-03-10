@@ -29,8 +29,7 @@ class HangMan extends Component {
   };
 
   componentDidMount() {
-    socket.emit('join', this.props.roomCode);
-
+    //TODO: need new code to reconnect after a disconnect
     const room = sessionStorage.getItem("room");
     const playerNumber = sessionStorage.getItem("playerNumber");
     if (playerNumber) {
@@ -38,9 +37,8 @@ class HangMan extends Component {
     }
     if (room) {
       this.props.joinRoom(room);
-      socket.emit("join", room);
     }
-
+    //TODO: may need to clean up event listeners on unmount
     socket.on("set word", (data) =>{
       this.setState({
         word: data.word,

@@ -4,17 +4,18 @@ import Home from "./Containers/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import SignIn from "./Containers/SignIn/SignIn";
 import CreateAccount from "./Containers/CreateAccount/CreateAccount";
-import {
-  Switch,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import TicTacToe from "./Containers/TicTacToe/TicTacToe";
 import HangMan from "./Containers/HangMan/HangMan";
 import Dashboard from "./Containers/Dashboard/Dashboard";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
+import { useDispatch } from "react-redux";
+import socket from "./socket.io";
 
 function App() {
+  const dispatch = useDispatch();
+  socket.initializeListeners(dispatch);
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -38,11 +39,7 @@ function App() {
           path="/HangMan"
           render={(props) => <HangMan {...props} />}
         />
-        <PrivateRoute
-          exact
-          path="/Dashboard"
-          component={Dashboard}
-        />
+        <PrivateRoute exact path="/Dashboard" component={Dashboard} />
       </Switch>
     </BrowserRouter>
   );
