@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./HangMan.scss";
 import Axios from "axios";
+import StickMan from "./Components/StickMan";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -189,21 +190,7 @@ class HangMan extends Component {
     })
   }
 
-  hangManPieces = [
-    <div className="hang-head"></div>,
-    <div className="hang-piece hang-body"></div>,
-    <div className="hang-piece hang-arm-l"></div>,
-    <div className="hang-piece hang-arm-r"></div>,
-    <div className="hang-piece hang-leg-l"></div>,
-    <div className="hang-piece hang-leg-r"></div>,
-  ];
-
   render() {
-    const renderedHangManPieces = [];
-    for (let i = 0; i < this.state.wrongGuesses; i++) {
-      renderedHangManPieces.push(this.hangManPieces[i]);
-    }
-
     //gotta clean this stuff up...
     let singleWord = [];
     const hangPhrase = [];
@@ -289,13 +276,7 @@ class HangMan extends Component {
             <div id="game-start-wrapper">
               <div className="row">
                 <div className="col">
-                  <div id="man-section">
-                    <div className="hang-piece hang-base"></div>
-                    <div className="hang-piece hang-staff"></div>
-                    <div className="hang-piece hang-reach"></div>
-                    <div className="hang-piece hang-rope"></div>
-                    {renderedHangManPieces}
-                  </div>
+                  <StickMan wrongGuesses={this.state.wrongGuesses}/>
                 </div>
                 <div className="col-9" id="right-board-wrapper">
                   <div className="row guessed-letter-section">
