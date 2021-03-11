@@ -6,6 +6,7 @@ import socket from "../../socket.io";
 import "./HangMan.scss";
 import Axios from "axios";
 import StickMan from "./Components/StickMan";
+import WordForm from "./Components/WordForm";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -253,24 +254,7 @@ class HangMan extends Component {
         <div className="row">
           <div id="hang-man-board" className="col">
             {Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber) && !this.state.gameStart && (
-              <>
-              <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
-                <h4 className="hang-man-question">Choose a word or phrase</h4>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="hangManWordInput"
-                  name="word"
-                  autoComplete="off"
-                  onChange={this.handleChangeWord}
-                />
-                <button type="submit" id="submit-word" className="btn btn-primary">
-                  Submit
-                </button>
-              </form>
-              {this.state.error && !this.state.letterGuess && 
-              <div className="row hang-error"><h4>{this.state.error}</h4></div>}
-              </>
+              <WordForm letterGuess={this.state.letterGuess} error={this.state.error} handleChangeWord={this.handleChangeWord} handleSubmit={this.handleSubmit}/>
             )}
             {this.state.gameStart && 
             <div id="game-start-wrapper">
