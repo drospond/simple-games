@@ -8,6 +8,7 @@ import Axios from "axios";
 import StickMan from "./Components/StickMan";
 import WordForm from "./Components/WordForm";
 import GuessForm from "./Components/GuessForm";
+import HangWord from "./Components/HangWord";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -171,57 +172,6 @@ class HangMan extends Component {
   }
 
   render() {
-    //gotta clean this stuff up...
-    let singleWord = [];
-    const hangPhrase = [];
-    this.state.word.forEach((letter, index) => {
-      let letterClass = "";
-      if (/[ ]/.test(letter)) {
-        letterClass = "hidden";
-        return hangPhrase.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{"___"}</div>
-          </div>
-        );
-      }
-      if (/[A-Z]/.test(letter) && !this.state.guesses.includes(letter)) {
-        letterClass = "hidden";
-      }
-      if (/['\-,]/.test(letter)) {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-          </div>
-        );
-        if(/[,]/.test(letter)){
-          hangPhrase.push(<div className="hang-word">{singleWord}</div>);
-          singleWord = [];
-          return;
-        }
-        return;
-      }
-      if (
-        index === this.state.word.length - 1 ||
-        this.state.word[index + 1] === " "
-      ) {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-            <div className="hang-piece letter-line"></div>
-          </div>
-        );
-        hangPhrase.push(<div className="hang-word">{singleWord}</div>);
-        singleWord = [];
-      } else {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-            <div className="hang-piece letter-line"></div>
-          </div>
-        );
-      }
-    });
-
     return (
       <div className="container">
         <div className="row title-row">
@@ -251,7 +201,7 @@ class HangMan extends Component {
                     })}
                   </div>
                   <div id="word-section" className="row">
-                    {hangPhrase}
+                    <HangWord guesses={this.state.guesses} word={this.state.word}/>
                   </div>
                 </div>
               </div>
