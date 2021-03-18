@@ -1,6 +1,6 @@
 import React from "react";
 
-const WordForm = ({error, letterGuess, handleChangeWord, handleSubmit}) => {
+const WordForm = ({error, handleChangeWord, handleSubmit}) => {
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)} id="hang-man-form">
@@ -17,7 +17,7 @@ const WordForm = ({error, letterGuess, handleChangeWord, handleSubmit}) => {
           Submit
         </button>
       </form>
-      {error && !letterGuess && (
+      {error && (
         <div className="row hang-error">
           <h4>{error}</h4>
         </div>
