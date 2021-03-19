@@ -58,38 +58,6 @@ class HangMan extends Component {
       this.resetBoard();
     })
   }
-
-  handleChangeWord = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value.toUpperCase().split(""),
-      error: false,
-    });
-  };
-
-  handleChangeLetter = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value.toUpperCase(),
-      error: false,
-    });
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    if (/^([A-Z][,'-]? ?){4,64}$/.test(this.state.word.join(""))) {
-      socket.emit("set word", {
-        player: this.props.playerNumber,
-        word: this.state.word,
-        room: this.props.roomCode
-      });
-    } else {
-      this.setState({
-        error:
-          "Invalid entry. Word/phrase can't contain special characters other than a comma, appostrophe, or dash and must be less that 64 characters.",
-      });
-    }
-  };
   
   updateWins(){
     Axios.get(`/api/users/updateWins/hangMan/${this.props.signInState.user.userObject._id}`);
@@ -149,16 +117,16 @@ class HangMan extends Component {
   resetBoard = () => {
     const newLead = this.state.guessingPlayerNumber;
     const newGuesser = this.state.leadPlayerNumber;
-    this.setState({
+    this.setState((prevState) => ({
       word: [],
       guesses: [],
       wrongGuesses: 0,
       winCondition: false,
       lossCondition: false,
       gameStart: false,
-      leadPlayerNumber: newLead,
-      guessingPlayerNumber: newGuesser,
-    }, () => {
+      leadPlayerNumber: prevState.guessingPlayerNumber,
+      guessingPlayerNumber: prevState.leadPlayerNumber,
+    }), () => {
       if(document.getElementById("hang-man-form")){
         document.getElementById("hang-man-form").reset();
       }
@@ -179,7 +147,7 @@ class HangMan extends Component {
         <div className="row">
           <div id="hang-man-board" className="col">
             {Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber) && !this.state.gameStart && (
-              <WordForm error={this.state.error} handleChangeWord={this.handleChangeWord} handleSubmit={this.handleSubmit}/>
+              <WordForm/>
             )}
             {this.state.gameStart && 
             <div id="game-start-wrapper">
