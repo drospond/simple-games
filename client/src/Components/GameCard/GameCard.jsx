@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./GameCard.scss";
 import { Link } from "react-router-dom";
-import { joinRoom, assignPlayerumber } from "../../Redux/actions";
+import { assignPlayerumber } from "../../Redux/actions";
 import { useDispatch } from "react-redux";
 import socket from "../../socket.io";
 

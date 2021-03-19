@@ -5,6 +5,11 @@ import { connect } from "react-redux";
 import socket from "../../socket.io";
 import "./HangMan.scss";
 import Axios from "axios";
+import StickMan from "./Components/StickMan";
+import WordForm from "./Components/WordForm";
+import GuessForm from "./Components/GuessForm";
+import HangPhrase from "./Components/HangPhrase";
+import Title from "../../Components/Title/Title";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -19,7 +24,6 @@ class HangMan extends Component {
   state = {
     word: [],
     guesses: [],
-    letterGuess: "",
     wrongGuesses: 0,
     winCondition: false,
     lossCondition: false,
@@ -127,35 +131,15 @@ class HangMan extends Component {
   };
 
   handleGuess = (letter) => {
-    if (!/[a-zA-Z]{1}/.test(letter)) {
-      if(document.getElementById("guess-form")){
-        document.getElementById("guess-form").reset();
-      }
-      return this.setState({
-        error: "Must guess a letter!",
-      });
-    }
-    if (this.state.guesses.includes(letter)) {
-      if(document.getElementById("guess-form")){
-        document.getElementById("guess-form").reset();
-      }
-      return this.setState({
-        error: "Letter already guessed!",
-      });
-    }
     if (!this.state.word.includes(letter)) {
       this.setState({
         wrongGuesses: this.state.wrongGuesses + 1,
       });
     }
-    this.setState(
-      {
+    this.setState({
         guesses: this.state.guesses.concat(letter),
       },
       () => {
-        if (document.getElementById("guess-form")){
-          document.getElementById("guess-form").reset();
-        }
         this.checkWin();
         this.checkLoss();
       }
@@ -168,7 +152,6 @@ class HangMan extends Component {
     this.setState({
       word: [],
       guesses: [],
-      letterGuess: "",
       wrongGuesses: 0,
       winCondition: false,
       lossCondition: false,
@@ -189,113 +172,20 @@ class HangMan extends Component {
     })
   }
 
-  hangManPieces = [
-    <div className="hang-head"></div>,
-    <div className="hang-piece hang-body"></div>,
-    <div className="hang-piece hang-arm-l"></div>,
-    <div className="hang-piece hang-arm-r"></div>,
-    <div className="hang-piece hang-leg-l"></div>,
-    <div className="hang-piece hang-leg-r"></div>,
-  ];
-
   render() {
-    const renderedHangManPieces = [];
-    for (let i = 0; i < this.state.wrongGuesses; i++) {
-      renderedHangManPieces.push(this.hangManPieces[i]);
-    }
-
-    //gotta clean this stuff up...
-    let singleWord = [];
-    const hangPhrase = [];
-    this.state.word.forEach((letter, index) => {
-      let letterClass = "";
-      if (/[ ]/.test(letter)) {
-        letterClass = "hidden";
-        return hangPhrase.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{"___"}</div>
-          </div>
-        );
-      }
-      if (/[A-Z]/.test(letter) && !this.state.guesses.includes(letter)) {
-        letterClass = "hidden";
-      }
-      if (/['\-,]/.test(letter)) {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-          </div>
-        );
-        if(/[,]/.test(letter)){
-          hangPhrase.push(<div className="hang-word">{singleWord}</div>);
-          singleWord = [];
-          return;
-        }
-        return;
-      }
-      if (
-        index === this.state.word.length - 1 ||
-        this.state.word[index + 1] === " "
-      ) {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-            <div className="hang-piece letter-line"></div>
-          </div>
-        );
-        hangPhrase.push(<div className="hang-word">{singleWord}</div>);
-        singleWord = [];
-      } else {
-        singleWord.push(
-          <div className="hang-letter">
-            <div className={letterClass}>{letter}</div>
-            <div className="hang-piece letter-line"></div>
-          </div>
-        );
-      }
-    });
-
     return (
       <div className="container">
-        <div className="row title-row">
-          <h1 className="title">Hang Man</h1>
-        </div>
-        <div className="row">
-          <h4 id="room-code">Room: {this.props.roomCode}</h4>
-        </div>
+        <Title title="Hang Man"/>
         <div className="row">
           <div id="hang-man-board" className="col">
             {Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber) && !this.state.gameStart && (
-              <>
-              <form onSubmit={(e) => this.handleSubmit(e)} id="hang-man-form">
-                <h4 className="hang-man-question">Choose a word or phrase</h4>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="hangManWordInput"
-                  name="word"
-                  autoComplete="off"
-                  onChange={this.handleChangeWord}
-                />
-                <button type="submit" id="submit-word" className="btn btn-primary">
-                  Submit
-                </button>
-              </form>
-              {this.state.error && !this.state.letterGuess && 
-              <div className="row hang-error"><h4>{this.state.error}</h4></div>}
-              </>
+              <WordForm error={this.state.error} handleChangeWord={this.handleChangeWord} handleSubmit={this.handleSubmit}/>
             )}
             {this.state.gameStart && 
             <div id="game-start-wrapper">
               <div className="row">
                 <div className="col">
-                  <div id="man-section">
-                    <div className="hang-piece hang-base"></div>
-                    <div className="hang-piece hang-staff"></div>
-                    <div className="hang-piece hang-reach"></div>
-                    <div className="hang-piece hang-rope"></div>
-                    {renderedHangManPieces}
-                  </div>
+                  <StickMan wrongGuesses={this.state.wrongGuesses}/>
                 </div>
                 <div className="col-9" id="right-board-wrapper">
                   <div className="row guessed-letter-section">
@@ -307,45 +197,13 @@ class HangMan extends Component {
                     })}
                   </div>
                   <div id="word-section" className="row">
-                    {hangPhrase}
+                    <HangPhrase guesses={this.state.guesses} word={this.state.word}/>
                   </div>
                 </div>
               </div>
               <div id="guess-section">
                 {!this.state.winCondition && !this.state.lossCondition && Number(this.state.guessingPlayerNumber) === Number(this.props.playerNumber) && (
-                  <>
-                  <form
-                    id="guess-form"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      socket.emit("guess letter", {
-                        player: this.props.playerNumber,
-                        letter: this.state.letterGuess,
-                        room: this.props.roomCode
-                      });
-                    }}
-                  >
-                    <h4 className="hang-man-question">Guess a Letter</h4>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="hangManLetterInput"
-                      name="letterGuess"
-                      maxLength="1"
-                      autoComplete="off"
-                      onChange={this.handleChangeLetter}
-                    />
-                    <button
-                      type="submit"
-                      id="submit-letter"
-                      className="btn btn-primary"
-                    >
-                      Guess
-                    </button>
-                    {this.state.error &&
-                    <div className="row hang-error"><h4>{this.state.error}</h4></div>}
-                  </form>
-                    </>
+                  <GuessForm guesses={this.state.guesses}/>
                 )}
                 {this.state.winCondition && (
                   <h2 className="hang-end-display">
