@@ -6,6 +6,7 @@ import socket from "../../socket.io";
 import "./TicTacToe.scss";
 import Axios from "axios";
 import TicTacToeBoard from "./Components/TicTacToeBoard";
+import Title from "../../Components/Title/Title";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -183,12 +184,7 @@ class TicTacToe extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row title-row">
-          <h1 className="title">Tic-Tac-Toe</h1>
-        </div>
-        <div className="row">
-          <h4 id="room-code">Room: {this.props.roomCode}</h4>
-        </div>
+        <Title title="Tic-Tac-Toe"/>
         {Number(this.state.playerTurn) === Number(this.props.playerNumber) && !this.state.winner && (
           <div className="row">
             <h4 id="winner-notification">

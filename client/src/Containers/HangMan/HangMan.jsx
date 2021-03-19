@@ -9,6 +9,7 @@ import StickMan from "./Components/StickMan";
 import WordForm from "./Components/WordForm";
 import GuessForm from "./Components/GuessForm";
 import HangPhrase from "./Components/HangPhrase";
+import Title from "../../Components/Title/Title";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -174,12 +175,7 @@ class HangMan extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row title-row">
-          <h1 className="title">Hang Man</h1>
-        </div>
-        <div className="row">
-          <h4 id="room-code">Room: {this.props.roomCode}</h4>
-        </div>
+        <Title title="Hang Man"/>
         <div className="row">
           <div id="hang-man-board" className="col">
             {Number(this.props.playerNumber) === Number(this.state.leadPlayerNumber) && !this.state.gameStart && (
