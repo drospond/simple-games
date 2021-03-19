@@ -8,7 +8,7 @@ import Axios from "axios";
 import StickMan from "./Components/StickMan";
 import WordForm from "./Components/WordForm";
 import GuessForm from "./Components/GuessForm";
-import HangWord from "./Components/HangWord";
+import HangPhrase from "./Components/HangPhrase";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -201,7 +201,7 @@ class HangMan extends Component {
                     })}
                   </div>
                   <div id="word-section" className="row">
-                    <HangWord guesses={this.state.guesses} word={this.state.word}/>
+                    <HangPhrase guesses={this.state.guesses} word={this.state.word}/>
                   </div>
                 </div>
               </div>

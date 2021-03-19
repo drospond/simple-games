@@ -1,6 +1,7 @@
 import React from "react";
+import HangLetter from "./HangLetter";
 
-const HangWord = ({ word, guesses }) => {
+const HangPhrase = ({ word, guesses }) => {
   let singleWord = [];
   const hangPhrase = [];
   word.forEach((letter, index) => {
@@ -8,9 +9,7 @@ const HangWord = ({ word, guesses }) => {
     if (/[ ]/.test(letter)) {
       letterClass = "hidden";
       return hangPhrase.push(
-        <div className="hang-letter">
-          <div className={letterClass}>{"___"}</div>
-        </div>
+        <HangLetter letterClass={letterClass} letter={"___"} isLetter={false}/>
       );
     }
     if (/[A-Z]/.test(letter) && !guesses.includes(letter)) {
@@ -18,9 +17,7 @@ const HangWord = ({ word, guesses }) => {
     }
     if (/['\-,]/.test(letter)) {
       singleWord.push(
-        <div className="hang-letter">
-          <div className={letterClass}>{letter}</div>
-        </div>
+        <HangLetter letterClass={letterClass} letter={letter} isLetter={false}/>
       );
       if (/[,]/.test(letter)) {
         hangPhrase.push(<div className="hang-word">{singleWord}</div>);
@@ -34,19 +31,13 @@ const HangWord = ({ word, guesses }) => {
       word[index + 1] === " "
     ) {
       singleWord.push(
-        <div className="hang-letter">
-          <div className={letterClass}>{letter}</div>
-          <div className="hang-piece letter-line"></div>
-        </div>
+        <HangLetter letterClass={letterClass} letter={letter} isLetter={true}/>
       );
       hangPhrase.push(<div className="hang-word">{singleWord}</div>);
       singleWord = [];
     } else {
       singleWord.push(
-        <div className="hang-letter">
-          <div className={letterClass}>{letter}</div>
-          <div className="hang-piece letter-line"></div>
-        </div>
+        <HangLetter letterClass={letterClass} letter={letter} isLetter={true}/>
       );
     }
   });
@@ -54,4 +45,4 @@ const HangWord = ({ word, guesses }) => {
   return <div>{hangPhrase}</div>;
 };
 
-export default HangWord;
+export default HangPhrase;
