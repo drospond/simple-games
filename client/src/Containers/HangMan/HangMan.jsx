@@ -115,8 +115,6 @@ class HangMan extends Component {
   };
 
   resetBoard = () => {
-    const newLead = this.state.guessingPlayerNumber;
-    const newGuesser = this.state.leadPlayerNumber;
     this.setState((prevState) => ({
       word: [],
       guesses: [],
