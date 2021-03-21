@@ -11,6 +11,7 @@ import GuessForm from "./Components/GuessForm";
 import HangPhrase from "./Components/HangPhrase";
 import Title from "../../Components/Title/Title";
 import EndGameDisplay from "./Components/EndGameDisplay";
+import GuessedLetters from "./Components/GuessedLetters";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -152,12 +153,7 @@ class HangMan extends Component {
                 </div>
                 <div className="col-9" id="right-board-wrapper">
                   <div className="row guessed-letter-section">
-                    {this.state.guesses.map((letter) => {
-                      if (!this.state.word.includes(letter)) {
-                        return letter;
-                      }
-                      return "";
-                    })}
+                    <GuessedLetters guesses={this.state.guesses} word={this.state.guesses}/>
                   </div>
                   <div id="word-section" className="row">
                     <HangPhrase guesses={this.state.guesses} word={this.state.word}/>
