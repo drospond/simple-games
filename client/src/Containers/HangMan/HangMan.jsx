@@ -10,6 +10,7 @@ import WordForm from "./Components/WordForm";
 import GuessForm from "./Components/GuessForm";
 import HangPhrase from "./Components/HangPhrase";
 import Title from "../../Components/Title/Title";
+import EndGameDisplay from "./Components/EndGameDisplay";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -171,28 +172,7 @@ class HangMan extends Component {
                 {!this.state.winCondition && !this.state.lossCondition && Number(this.state.guessingPlayerNumber) === Number(this.props.playerNumber) && (
                   <GuessForm guesses={this.state.guesses}/>
                 )}
-                {this.state.winCondition && (
-                  <h2 className="hang-end-display">
-                    Saved from hanging!{" "}
-                    <span
-                      className="play-again-switch"
-                      onClick={() => {this.emitBoardResest()}}
-                    >
-                      Play Again?
-                    </span>
-                  </h2>
-                )}
-                {this.state.lossCondition && (
-                  <h2 className="hang-end-display">
-                    The poor man has been hanged!{" "}
-                    <span
-                      className="play-again-switch"
-                      onClick={() => this.emitBoardResest()}
-                    >
-                      Play Again?
-                    </span>
-                  </h2>
-                )}
+                <EndGameDisplay win={this.winCondition} loss={this.lossCondition} emitBoardResest={this.emitBoardResest}/>
               </div>
             </div>}
           </div>
