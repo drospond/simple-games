@@ -125,11 +125,7 @@ class HangMan extends Component {
       gameStart: false,
       leadPlayerNumber: prevState.guessingPlayerNumber,
       guessingPlayerNumber: prevState.leadPlayerNumber,
-    }), () => {
-      if(document.getElementById("hang-man-form")){
-        document.getElementById("hang-man-form").reset();
-      }
-    });
+    }));
   };
 
   emitBoardResest = () => {
