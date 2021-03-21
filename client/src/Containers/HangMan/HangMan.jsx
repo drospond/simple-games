@@ -10,6 +10,8 @@ import WordForm from "./Components/WordForm";
 import GuessForm from "./Components/GuessForm";
 import HangPhrase from "./Components/HangPhrase";
 import Title from "../../Components/Title/Title";
+import EndGameDisplay from "./Components/EndGameDisplay";
+import GuessedLetters from "./Components/GuessedLetters";
 
 function mapStateToProps(state) {
   const { roomCode, playerNumber, signInState } = state;
@@ -124,11 +126,7 @@ class HangMan extends Component {
       gameStart: false,
       leadPlayerNumber: prevState.guessingPlayerNumber,
       guessingPlayerNumber: prevState.leadPlayerNumber,
-    }), () => {
-      if(document.getElementById("hang-man-form")){
-        document.getElementById("hang-man-form").reset();
-      }
-    });
+    }));
   };
 
   emitBoardResest = () => {
@@ -155,12 +153,7 @@ class HangMan extends Component {
                 </div>
                 <div className="col-9" id="right-board-wrapper">
                   <div className="row guessed-letter-section">
-                    {this.state.guesses.map((letter) => {
-                      if (!this.state.word.includes(letter)) {
-                        return letter;
-                      }
-                      return "";
-                    })}
+                    <GuessedLetters guesses={this.state.guesses} word={this.state.guesses}/>
                   </div>
                   <div id="word-section" className="row">
                     <HangPhrase guesses={this.state.guesses} word={this.state.word}/>
@@ -171,28 +164,7 @@ class HangMan extends Component {
                 {!this.state.winCondition && !this.state.lossCondition && Number(this.state.guessingPlayerNumber) === Number(this.props.playerNumber) && (
                   <GuessForm guesses={this.state.guesses}/>
                 )}
-                {this.state.winCondition && (
-                  <h2 className="hang-end-display">
-                    Saved from hanging!{" "}
-                    <span
-                      className="play-again-switch"
-                      onClick={() => {this.emitBoardResest()}}
-                    >
-                      Play Again?
-                    </span>
-                  </h2>
-                )}
-                {this.state.lossCondition && (
-                  <h2 className="hang-end-display">
-                    The poor man has been hanged!{" "}
-                    <span
-                      className="play-again-switch"
-                      onClick={() => this.emitBoardResest()}
-                    >
-                      Play Again?
-                    </span>
-                  </h2>
-                )}
+                <EndGameDisplay win={this.winCondition} loss={this.lossCondition} emitBoardResest={this.emitBoardResest}/>
               </div>
             </div>}
           </div>
