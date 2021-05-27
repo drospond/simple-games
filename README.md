@@ -22,7 +22,7 @@ Simple games is a web application that contains a collection of some basic games
 * bcrypt
 * Sass
 * Redux
-* <span>socket.</spann>io
+* <span>socket.</span>io
 
 ## Installation
 It's simple enough to get running in a local dev environment. The application uses MongoDB for user data. Make sure to install mongoDB locally. Once MongoDB is installed, just clone the repo and run the following in the root directory:
